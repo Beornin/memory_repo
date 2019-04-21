@@ -4,14 +4,15 @@ import io.Reporter;
 import obj.TestObj;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoadPictureRunnable implements Runnable
 {
     final private TestObj currentStaged;
-    final private ArrayList<TestObj> currentFiles;
-    final private ArrayList<TestObj> stagedFiles;
+    final private List<TestObj> currentFiles;
+    final private List<TestObj> stagedFiles;
 
-    public LoadPictureRunnable(final TestObj pic, final ArrayList<TestObj> stagedFiles, final ArrayList<TestObj> currentFiles)
+    public LoadPictureRunnable(final TestObj pic, final List<TestObj> stagedFiles, final List<TestObj> currentFiles)
     {
         this.currentStaged = pic;
         this.stagedFiles = stagedFiles;
@@ -112,6 +113,10 @@ public class LoadPictureRunnable implements Runnable
             if (!matches.isEmpty())
             {
                 Reporter.reportDuplicates(currentStaged.getName(), matches);
+            }
+            else
+            {
+                //Mover.movePassed(currentStaged);
             }
 
             final long endTime = System.nanoTime();

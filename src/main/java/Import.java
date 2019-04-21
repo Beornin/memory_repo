@@ -7,6 +7,7 @@ import processing.Shared;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,7 +21,7 @@ class Import
     private static void mainProcess()
     {
         final long startTime = System.nanoTime();
-        ArrayList<TestObj> startingFiles = new ArrayList<>(0);
+        List<TestObj> startingFiles = new ArrayList<>(0);
 
         //move all files from GDrive to staging folder
         Mover.moveToStaging();
@@ -29,7 +30,7 @@ class Import
         final UserInputObj importUio = new UserInputObj();
         importUio.setStartingFolder(new File("Z:\\Imports\\Stage"));
         importUio.setImported(true);
-        final ArrayList<TestObj> stagedFiles = Loader.gatherNewFiles(importUio);
+        final List<TestObj> stagedFiles = Loader.gatherNewFiles(importUio);
 
         //If we have any staged files
         if (stagedFiles != null && stagedFiles.size() > 0)
@@ -49,7 +50,7 @@ class Import
             final UserInputObj passedUio = new UserInputObj();
             passedUio.setStartingFolder(new File("Z:\\Imports\\Pass"));
             passedUio.setImported(false);
-            final ArrayList<TestObj> passedFiles = Loader.gatherCurrentFiles(passedUio);
+            final List<TestObj> passedFiles = Loader.gatherCurrentFiles(passedUio);
             //add in to are shared ones since these previously passed validations
             startingFiles.addAll(passedFiles);
 
@@ -65,12 +66,17 @@ class Import
                 //Wait for threads to all stop
                 pool.awaitTermination(1, TimeUnit.DAYS);
 
-                //Move all staged files that were imported, and not matched to Z/imports/pass
-                Mover.movePassed(stagedFiles);
-
             } catch (final InterruptedException ie)
             {
                 ie.printStackTrace();
+            }
+
+            for (final TestObj to : stagedFiles)
+            {
+                if (!to.isMatched())
+                {
+                    Mover.movePassed(to);
+                }
             }
         }
         final long endTime = System.nanoTime();

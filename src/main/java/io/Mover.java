@@ -6,7 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Mover
 {
@@ -48,20 +49,17 @@ public class Mover
         }
     }
 
-    public static void movePassed(final ArrayList<TestObj> staggedFiles)
+    public static void movePassed(final TestObj stageFile)
     {
         try
         {
-            for (final TestObj stageFile : staggedFiles)
+            if (stageFile.isImported() && !stageFile.isMatched() && !new File(passedDir + stageFile.getPath().replace(stageDir, "")).exists())
             {
-                if (stageFile.isImported() && !stageFile.isMatched() && !new File(passedDir + stageFile.getName()).exists())
-                {
-                    Files.move(Paths.get(stageFile.getPath()), Paths.get(passedDir + stageFile.getName()));
-                }
-                else
-                {
-                    Files.move(Paths.get(stageFile.getPath()), Paths.get(passedDir + stageFile.getName() + "(1)"));
-                }
+                Files.move(Paths.get(stageFile.getPath()), Paths.get(passedDir + stageFile.getName()));
+            }
+            else
+            {
+                Files.move(Paths.get(stageFile.getPath()), Paths.get(passedDir + stageFile.getPath().replace(stageDir, "") + "(" + new SimpleDateFormat("HH.mm.ss").format(new Date()) + ")"));
             }
         } catch (final IOException ioe)
         {
@@ -73,9 +71,13 @@ public class Mover
     {
         try
         {
-            if (test1.isImported() && new File(test1.getPath()).exists())
+            if (test1.isImported() && new File(test1.getPath()).exists() && !new File(flaggedDir + test1.getPath().replace(stageDir, "")).exists())
             {
                 Files.move(Paths.get(test1.getPath()), Paths.get(flaggedDir + test1.getName()));
+            }
+            else
+            {
+                Files.move(Paths.get(test1.getPath()), Paths.get(flaggedDir + test1.getPath().replace(stageDir, "") + "(" + new SimpleDateFormat("HH.mm.ss").format(new Date()) + ")"));
             }
         } catch (final Exception e)
         {
