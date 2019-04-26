@@ -1,8 +1,8 @@
 import io.Mover;
-import obj.TestObj;
+import obj.Memory;
 import obj.UserInputObj;
-import processing.LoadPictureRunnable;
-import processing.Loader;
+import processing.RunnableMemoryChecker;
+import processing.RunnableMemoryLoader;
 import processing.Shared;
 
 import java.io.File;
@@ -21,19 +21,19 @@ class Import
     private static void mainProcess()
     {
         final long startTime = System.nanoTime();
-        List<TestObj> startingFiles = new ArrayList<>(0);
+        List<Memory> currentMemories = new ArrayList<>(0);
 
         //move all files from GDrive to staging folder
         Mover.moveToStaging();
 
         //Then gather up the staged files
         final UserInputObj importUio = new UserInputObj();
-        importUio.setStartingFolder(new File("Z:\\Imports\\Stage"));
+        importUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Stage"));
         importUio.setImported(true);
-        final List<TestObj> stagedFiles = Loader.gatherNewFiles(importUio);
+        final List<Memory> stagedMemories = RunnableMemoryLoader.gatherNewFiles(importUio);
 
         //If we have any staged files
-        if (stagedFiles != null && stagedFiles.size() > 0)
+        if (stagedMemories != null && stagedMemories.size() > 0)
         {
         /*make a thread runner to take 1 stage file, and compare to all of startingFiles
              if passes startingFiles test, see if any files are in the passed on z drive, add those into the check for this thread
@@ -43,21 +43,21 @@ class Import
             //Get all the current files on ShareDrive
             final UserInputObj userInputObj = new UserInputObj();
             userInputObj.setImported(false);
-            userInputObj.setStartingFolder(new File("Y:\\SharedFolder\\Pictures and Videos"));
-            startingFiles = Loader.gatherCurrentFiles(userInputObj);
+            userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
+            currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj);
 
             //Gather up all in Pass that have not been added to ShareDrive yet
             final UserInputObj passedUio = new UserInputObj();
-            passedUio.setStartingFolder(new File("Z:\\Imports\\Pass"));
+            passedUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Pass"));
             passedUio.setImported(false);
-            final List<TestObj> passedFiles = Loader.gatherCurrentFiles(passedUio);
+            final List<Memory> passedFiles = RunnableMemoryLoader.gatherCurrentFiles(passedUio);
             //add in to are shared ones since these previously passed validations
-            startingFiles.addAll(passedFiles);
+            currentMemories.addAll(passedFiles);
 
             final ExecutorService pool = Executors.newFixedThreadPool(3);
-            for (final TestObj stageFile : stagedFiles)
+            for (final Memory stageMemory : stagedMemories)
             {
-                final Runnable r1 = new LoadPictureRunnable(stageFile, stagedFiles, startingFiles);
+                final Runnable r1 = new RunnableMemoryChecker(stageMemory, stagedMemories, currentMemories);
                 pool.execute(r1);
             }
             try
@@ -71,17 +71,24 @@ class Import
                 ie.printStackTrace();
             }
 
-            for (final TestObj to : stagedFiles)
+            //Move memories where they should go
+            for (final Memory currentMemory : stagedMemories)
             {
-                if (!to.isMatched())
+                if (currentMemory.isMatched())
                 {
-                    Mover.movePassed(to);
+                    Mover.moveImportFileMatched(currentMemory);
+                }
+                else
+                {
+                    Mover.movePassed(currentMemory);
                 }
             }
         }
+
         final long endTime = System.nanoTime();
         final long totalTime = endTime - startTime;
-        System.out.println("Total  check  between " + startingFiles.size() + " starting files and " + Objects.requireNonNull(stagedFiles).size() + " staged files took: " + Shared.printTotalTimeTaken(totalTime));
+        System.out.println("Total  check  between " + currentMemories.size() + " starting memories and " + Objects.requireNonNull(stagedMemories).size() + " staged memories took: " + Shared.printTotalTimeTaken(totalTime));
+        currentMemories.clear();
     }
 
     public static void main(final String[] args)

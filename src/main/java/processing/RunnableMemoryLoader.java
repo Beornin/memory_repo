@@ -1,6 +1,6 @@
 package processing;
 
-import obj.TestObj;
+import obj.Memory;
 import obj.UserInputObj;
 import org.apache.commons.io.FileUtils;
 
@@ -13,20 +13,20 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Loader
+public class RunnableMemoryLoader
 {
     private static final String[] ALL_EXTENSIONS = new String[]{
             "gif", "png", "bmp", "jpg", "jpeg", "heic", "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv", "raw", "cr2", "tiff", "tif",
             "GIF", "PNG", "BMP", "JPG", "JPEG", "HEIC", "MP4", "MOV", "MP4", "MOV", "AVI", "VLC", "WMV", "RAW", "CR2", "TIFF", "TIF"
     };
 
-    public static List<TestObj> gatherCurrentFiles(final UserInputObj uio)
+    public static List<Memory> gatherCurrentFiles(final UserInputObj uio)
     {
         final long startTime1 = System.nanoTime();
 
         System.out.println("Getting current files...");
 
-        final List<TestObj> possibleMatches = Loader.listFiles(uio);
+        final List<Memory> possibleMatches = RunnableMemoryLoader.listFiles(uio);
 
         final long endTime1 = System.nanoTime();
         final long totalTime1 = endTime1 - startTime1;
@@ -35,13 +35,13 @@ public class Loader
         return possibleMatches;
     }
 
-    public static List<TestObj> gatherNewFiles(final UserInputObj uio)
+    public static List<Memory> gatherNewFiles(final UserInputObj uio)
     {
         final long startTime1 = System.nanoTime();
 
-        System.out.print("Getting STAGE files...");
+        System.out.println("Getting STAGE files...");
 
-        final List<TestObj> possibleMatches = Loader.listFiles(uio);
+        final List<Memory> possibleMatches = RunnableMemoryLoader.listFiles(uio);
 
         final long endTime1 = System.nanoTime();
         final long totalTime1 = endTime1 - startTime1;
@@ -50,15 +50,17 @@ public class Loader
         return possibleMatches;
     }
 
-    private static List<TestObj> listFiles(final UserInputObj userInputObj)
+    private static List<Memory> listFiles(final UserInputObj userInputObj)
     {
         final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
-        final List<TestObj> objs = Collections.synchronizedList(new ArrayList<>());
+        System.out.println("Listing Files...");
+        final List<Memory> objs = Collections.synchronizedList(new ArrayList<>());
 
         final ExecutorService pool = Executors.newFixedThreadPool(3);
 
         if (files.size() > 0)
         {
+            System.out.println("Loading memories..");
             for (final File file : files)
             {
                 final Runnable r1 = new MemoryCreate(userInputObj, file, objs);

@@ -1,13 +1,11 @@
 package io;
 
-import obj.TestObj;
+import obj.Memory;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Mover
 {
@@ -49,17 +47,28 @@ public class Mover
         }
     }
 
-    public static void movePassed(final TestObj stageFile)
+    public static void movePassed(final Memory memory)
     {
         try
         {
-            if (stageFile.isImported() && !stageFile.isMatched() && !new File(passedDir + stageFile.getPath().replace(stageDir, "")).exists())
+            if (memory.isImported() && !memory.isMatched())
             {
-                Files.move(Paths.get(stageFile.getPath()), Paths.get(passedDir + stageFile.getName()));
-            }
-            else
-            {
-                Files.move(Paths.get(stageFile.getPath()), Paths.get(passedDir + stageFile.getPath().replace(stageDir, "") + "(" + new SimpleDateFormat("HH.mm.ss").format(new Date()) + ")"));
+                if (!new File(passedDir + memory.getName()).exists())
+                {
+                    Files.move(Paths.get(memory.getPath()), Paths.get(passedDir + memory.getName()));
+                }
+                else
+                {
+                    int num = 0;
+                    String save;
+                    File saveFile = new File(passedDir + memory.getName());
+                    while (saveFile.exists())
+                    {
+                        save = (num++) + memory.getName();
+                        saveFile = new File(passedDir + save);
+                    }
+                    Files.move(Paths.get(memory.getPath()), Paths.get(saveFile.toURI()));
+                }
             }
         } catch (final IOException ioe)
         {
@@ -67,17 +76,28 @@ public class Mover
         }
     }
 
-    public static void moveImportFileMatched(final TestObj test1)
+    public static void moveImportFileMatched(final Memory memory)
     {
         try
         {
-            if (test1.isImported() && new File(test1.getPath()).exists() && !new File(flaggedDir + test1.getPath().replace(stageDir, "")).exists())
+            if (memory.isImported() && memory.isMatched() && new File(memory.getPath()).exists())
             {
-                Files.move(Paths.get(test1.getPath()), Paths.get(flaggedDir + test1.getName()));
-            }
-            else
-            {
-                Files.move(Paths.get(test1.getPath()), Paths.get(flaggedDir + test1.getPath().replace(stageDir, "") + "(" + new SimpleDateFormat("HH.mm.ss").format(new Date()) + ")"));
+                if (!new File(flaggedDir + memory.getName()).exists())
+                {
+                    Files.move(Paths.get(memory.getPath()), Paths.get(flaggedDir + memory.getName()));
+                }
+                else
+                {
+                    int num = 0;
+                    String save;
+                    File saveFile = new File(flaggedDir + memory.getName());
+                    while (saveFile.exists())
+                    {
+                        save = (num++) + memory.getName();
+                        saveFile = new File(flaggedDir + save);
+                    }
+                    Files.move(Paths.get(memory.getPath()), Paths.get(saveFile.toURI()));
+                }
             }
         } catch (final Exception e)
         {

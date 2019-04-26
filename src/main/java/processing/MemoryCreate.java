@@ -7,7 +7,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import obj.TestObj;
+import obj.Memory;
 import obj.UserInputObj;
 
 import javax.imageio.ImageIO;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MemoryCreate implements Runnable
+class MemoryCreate implements Runnable
 {
     private static final String[] PICTURE_EXTENSIONS = new String[]{
             "gif", "png", "bmp", "jpg", "jpeg", "heic"
@@ -29,10 +29,10 @@ public class MemoryCreate implements Runnable
             "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv"
     };
     private final File file;
-    private final List<TestObj> memories;
+    private final List<Memory> memories;
     private final UserInputObj userIo;
 
-    MemoryCreate(final UserInputObj uio, final File fileIn, final List<TestObj> memoriesIn)
+    MemoryCreate(final UserInputObj uio, final File fileIn, final List<Memory> memoriesIn)
     {
         userIo = uio;
         file = fileIn;
@@ -112,10 +112,10 @@ public class MemoryCreate implements Runnable
     {
         if (file.isFile() && file.length() > 0)
         {
-            final TestObj memory;
+            final Memory memory;
             if (isPicture(file) || isRaw(file))
             {
-                memory = new TestObj();
+                memory = new Memory();
                 memory.setName(file.getName());
                 memory.setPath(file.getPath());
                 memory.setFile(file);
@@ -135,7 +135,6 @@ public class MemoryCreate implements Runnable
                     }
                 } catch (final Exception ioe)
                 {
-                    //System.out.println(file.getPath() + " trying Meta");
                     try
                     {
                         final Metadata metadata = ImageMetadataReader.readMetadata(file);
@@ -147,21 +146,23 @@ public class MemoryCreate implements Runnable
 
                         final ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
                         memory.setDate(exifSubIFDDirectory.getString(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL));
-                        memory.setExposure(exifSubIFDDirectory.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
 
                     } catch (final ImageProcessingException | IOException | NullPointerException ipe)
                     {
-                        System.out.println("Error: " + file.getName());
-                        ipe.printStackTrace();
+                        System.out.println("Error loading memory: " + file.getName());
+                        //ipe.printStackTrace();
                     }
                 }
 
                 this.memories.add(memory);
-
+                if (this.memories.size() % 10000 == 0)
+                {
+                    System.out.println("Current memories loaded: " + this.memories.size());
+                }
             }
             else if (isVideo(file))
             {
-                memory = new TestObj();
+                memory = new Memory();
                 memory.setName(file.getName());
                 memory.setPath(file.getPath());
                 memory.setFile(file);
@@ -170,6 +171,14 @@ public class MemoryCreate implements Runnable
                 memory.setVideo(true);
                 memory.setPicture(false);
                 this.memories.add(memory);
+                if (this.memories.size() % 10000 == 0)
+                {
+                    System.out.println("Current memories loaded: " + this.memories.size());
+                }
+            }
+            else
+            {
+                System.out.println("Not a memory type: " + file.getPath());
             }
         }
     }

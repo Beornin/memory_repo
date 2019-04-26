@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Shared
 {
-    public static byte[] returnPixelVal(final File in)
+    static byte[] returnPixelVal(final File in)
     {
         final BufferedImage img;
         final File f;

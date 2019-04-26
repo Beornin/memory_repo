@@ -1,18 +1,18 @@
 package processing;
 
 import io.Reporter;
-import obj.TestObj;
+import obj.Memory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadPictureRunnable implements Runnable
+public class RunnableMemoryChecker implements Runnable
 {
-    final private TestObj currentStaged;
-    final private List<TestObj> currentFiles;
-    final private List<TestObj> stagedFiles;
+    final private Memory currentStaged;
+    final private List<Memory> currentFiles;
+    final private List<Memory> stagedFiles;
 
-    public LoadPictureRunnable(final TestObj pic, final List<TestObj> stagedFiles, final List<TestObj> currentFiles)
+    public RunnableMemoryChecker(final Memory pic, final List<Memory> stagedFiles, final List<Memory> currentFiles)
     {
         this.currentStaged = pic;
         this.stagedFiles = stagedFiles;
@@ -24,14 +24,14 @@ public class LoadPictureRunnable implements Runnable
         try
         {
             final long startTime = System.nanoTime();
-            final ArrayList<TestObj> matches = new ArrayList<>();
+            final ArrayList<Memory> matches = new ArrayList<>();
 
             //if we have to fully scan the pic, save it so we don't do it each time
             byte[] tempByte = null;
 
             //check that none of the new files match what we already have
             //this makes sure someone doesn't add a file that is already stored
-            for (final TestObj currentFile : currentFiles)
+            for (final Memory currentFile : currentFiles)
             {
                 if (currentFile.isMatched() || currentStaged.equals(currentFile))
                 {
@@ -71,7 +71,7 @@ public class LoadPictureRunnable implements Runnable
 
             //check that none of the new files match what is coming in the single staged.
             //this makes sure someone doesn't add the same picture twice during import
-            for (final TestObj otherStagedFile : stagedFiles)
+            for (final Memory otherStagedFile : stagedFiles)
             {
                 if (otherStagedFile.isMatched() || currentStaged.equals(otherStagedFile))
                 {
@@ -113,10 +113,6 @@ public class LoadPictureRunnable implements Runnable
             if (!matches.isEmpty())
             {
                 Reporter.reportDuplicates(currentStaged.getName(), matches);
-            }
-            else
-            {
-                //Mover.movePassed(currentStaged);
             }
 
             final long endTime = System.nanoTime();

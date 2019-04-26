@@ -3,9 +3,8 @@ package obj;
 import com.drew.metadata.Metadata;
 
 import java.io.File;
-import java.util.Date;
 
-public class TestObj
+public class Memory
 {
     private String path;
     private String name;
@@ -23,9 +22,6 @@ public class TestObj
     //RAW types
     private Metadata metadata;
     private String date;
-    private Date date2;
-    private boolean modifiedDateUsed;
-    private String exposure;
 
     public boolean isImported()
     {
@@ -156,35 +152,4 @@ public class TestObj
     {
         this.date = date;
     }
-
-    public String getExposure()
-    {
-        return exposure;
-    }
-
-    public void setExposure(final String exposure)
-    {
-        this.exposure = exposure;
-    }
-
-    public Date getDate2()
-    {
-        return date2;
-    }
-
-    public void setDate2(final Date date2)
-    {
-        this.date2 = date2;
-    }
-
-    public boolean isModifiedDateUsed()
-    {
-        return modifiedDateUsed;
-    }
-
-    public void setModifiedDateUsed(final boolean modifiedDateUsed)
-    {
-        this.modifiedDateUsed = modifiedDateUsed;
-    }
 }
-
