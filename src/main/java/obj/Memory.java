@@ -58,9 +58,9 @@ public class Memory
         return firstBytes;
     }
 
-    public void setFirstBytes(final byte[] md5)
+    public void setFirstBytes(final byte[] firstBytes)
     {
-        this.firstBytes = md5;
+        this.firstBytes = firstBytes;
     }
 
     public File getFile()

@@ -12,6 +12,12 @@ import java.util.Date;
 
 public class Reporter
 {
+    /**
+     * This creates a text file to show what new memory matched a current memory
+     *
+     * @param stageFileName The memory checked for duplicate name
+     * @param matches       The matches found
+     */
     public static void reportDuplicates(final String stageFileName, final ArrayList<Memory> matches)
     {
         final PrintWriter out;
