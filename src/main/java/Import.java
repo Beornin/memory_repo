@@ -30,29 +30,27 @@ class Import
         final UserInputObj importUio = new UserInputObj();
         importUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Stage"));
         importUio.setImported(true);
+        System.out.println("Getting STAGE memories...");
         final List<Memory> stagedMemories = RunnableMemoryLoader.gatherNewFiles(importUio);
 
         //If we have any staged files
         if (stagedMemories != null && stagedMemories.isEmpty())
         {
-        /*make a thread runner to take 1 stage file, and compare to all of startingFiles
-             if passes startingFiles test, see if any files are in the passed on z drive, add those into the check for this thread
-            if STILL passes, then add the 1 stage file to the passed on z drive
-         */
-
-            //Get all the current files on ShareDrive
+            //Get all the current files on repo
             final UserInputObj userInputObj = new UserInputObj();
             userInputObj.setImported(false);
             userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
+            System.out.println("Getting current memories...");
             currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj);
 
-            //Gather up all in Pass that have not been added to ShareDrive yet
+            //Gather up all in Pass that have not been added to repo yet
             final UserInputObj passedUio = new UserInputObj();
             passedUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Pass"));
             passedUio.setImported(false);
-            final List<Memory> passedFiles = RunnableMemoryLoader.gatherCurrentFiles(passedUio);
+            System.out.println("Getting previous passed memories...");
+            final List<Memory> passedMemories = RunnableMemoryLoader.gatherCurrentFiles(passedUio);
             //add in to are shared ones since these previously passed validations
-            currentMemories.addAll(passedFiles);
+            currentMemories.addAll(passedMemories);
 
             final ExecutorService pool = Executors.newFixedThreadPool(3);
             for (final Memory stageMemory : stagedMemories)

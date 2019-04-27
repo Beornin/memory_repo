@@ -24,8 +24,6 @@ public class RunnableMemoryLoader
     {
         final long startTime1 = System.nanoTime();
 
-        System.out.println("Getting current files...");
-
         final List<Memory> possibleMatches = RunnableMemoryLoader.listFiles(uio);
 
         final long endTime1 = System.nanoTime();
@@ -38,8 +36,6 @@ public class RunnableMemoryLoader
     public static List<Memory> gatherNewFiles(final UserInputObj uio)
     {
         final long startTime1 = System.nanoTime();
-
-        System.out.println("Getting STAGE files...");
 
         final List<Memory> possibleMatches = RunnableMemoryLoader.listFiles(uio);
 

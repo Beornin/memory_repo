@@ -8,15 +8,15 @@ import java.util.List;
 
 public class RunnableMemoryChecker implements Runnable
 {
-    final private Memory currentStaged;
-    final private List<Memory> currentFiles;
-    final private List<Memory> stagedFiles;
+    final private Memory newMemory;
+    final private List<Memory> currentMemories;
+    final private List<Memory> stagedMemories;
 
-    public RunnableMemoryChecker(final Memory pic, final List<Memory> stagedFiles, final List<Memory> currentFiles)
+    public RunnableMemoryChecker(final Memory newMemory, final List<Memory> stagedMemories, final List<Memory> currentMemories)
     {
-        this.currentStaged = pic;
-        this.stagedFiles = stagedFiles;
-        this.currentFiles = currentFiles;
+        this.newMemory = newMemory;
+        this.stagedMemories = stagedMemories;
+        this.currentMemories = currentMemories;
     }
 
     public void run()
@@ -31,35 +31,35 @@ public class RunnableMemoryChecker implements Runnable
 
             //check that none of the new files match what we already have
             //this makes sure someone doesn't add a file that is already stored
-            for (final Memory currentFile : currentFiles)
+            for (final Memory currentMemory : currentMemories)
             {
-                if (currentFile.isMatched() || currentStaged.equals(currentFile))
+                if (currentMemory.isMatched() || newMemory.equals(currentMemory))
                 {
                     continue;
                 }
                 try
                 {
-                    if (DetermineMatch.isProbablePictureMatch(currentStaged, currentFile))
+                    if (DetermineMatch.isProbablePictureMatch(newMemory, currentMemory))
                     {
-                        if (tempByte == null && currentStaged.getMetadata() == null)
+                        if (tempByte == null && newMemory.getMetadata() == null)
                         {
-                            tempByte = Shared.returnPixelVal(currentStaged.getFile());
+                            tempByte = Shared.returnPixelVal(newMemory.getFile());
                         }
 
-                        if (currentStaged.getMetadata() == null && currentFile.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, currentFile.getFile()))
+                        if (newMemory.getMetadata() == null && currentMemory.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, currentMemory.getFile()))
                         {
-                            DetermineMatch.setMatchedItems(matches, currentStaged, currentFile);
+                            DetermineMatch.setMatchedItems(matches, newMemory, currentMemory);
                         }
-                        if (currentStaged.getMetadata() != null && currentFile.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(currentStaged, currentFile))
+                        if (newMemory.getMetadata() != null && currentMemory.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(newMemory, currentMemory))
                         {
-                            DetermineMatch.setMatchedItems(matches, currentStaged, currentFile);
+                            DetermineMatch.setMatchedItems(matches, newMemory, currentMemory);
                         }
                     }
 
-                    if (DetermineMatch.isPossibleVideoMatch(currentStaged, currentFile) &&
-                            DetermineMatch.isDuplicateVideo(currentStaged.getFile().toPath(), currentFile.getFile().toPath()))
+                    if (DetermineMatch.isPossibleVideoMatch(newMemory, currentMemory) &&
+                            DetermineMatch.isDuplicateVideo(newMemory.getFile().toPath(), currentMemory.getFile().toPath()))
                     {
-                        DetermineMatch.setMatchedItems(matches, currentStaged, currentFile);
+                        DetermineMatch.setMatchedItems(matches, newMemory, currentMemory);
                     }
                 } catch (final Exception e)
                 {
@@ -69,36 +69,36 @@ public class RunnableMemoryChecker implements Runnable
 
             //check that none of the new files match what is coming in the single staged.
             //this makes sure someone doesn't add the same picture twice during import
-            for (final Memory otherStagedFile : stagedFiles)
+            for (final Memory stagedMemory : stagedMemories)
             {
-                if (otherStagedFile.isMatched() || currentStaged.equals(otherStagedFile))
+                if (stagedMemory.isMatched() || newMemory.equals(stagedMemory))
                 {
                     continue;
                 }
 
                 try
                 {
-                    if (DetermineMatch.isProbablePictureMatch(currentStaged, otherStagedFile))
+                    if (DetermineMatch.isProbablePictureMatch(newMemory, stagedMemory))
                     {
-                        if (tempByte == null && currentStaged.getMetadata() == null)
+                        if (tempByte == null && newMemory.getMetadata() == null)
                         {
-                            tempByte = Shared.returnPixelVal(currentStaged.getFile());
+                            tempByte = Shared.returnPixelVal(newMemory.getFile());
                         }
 
-                        if (currentStaged.getMetadata() == null && otherStagedFile.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, otherStagedFile.getFile()))
+                        if (newMemory.getMetadata() == null && stagedMemory.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, stagedMemory.getFile()))
                         {
-                            DetermineMatch.setMatchedItems(matches, currentStaged, otherStagedFile);
+                            DetermineMatch.setMatchedItems(matches, newMemory, stagedMemory);
                         }
-                        if (currentStaged.getMetadata() != null && otherStagedFile.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(currentStaged, otherStagedFile))
+                        if (newMemory.getMetadata() != null && stagedMemory.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(newMemory, stagedMemory))
                         {
-                            DetermineMatch.setMatchedItems(matches, currentStaged, otherStagedFile);
+                            DetermineMatch.setMatchedItems(matches, newMemory, stagedMemory);
                         }
                     }
 
-                    if (DetermineMatch.isPossibleVideoMatch(currentStaged, otherStagedFile) &&
-                            DetermineMatch.isDuplicateVideo(currentStaged.getFile().toPath(), otherStagedFile.getFile().toPath()))
+                    if (DetermineMatch.isPossibleVideoMatch(newMemory, stagedMemory) &&
+                            DetermineMatch.isDuplicateVideo(newMemory.getFile().toPath(), stagedMemory.getFile().toPath()))
                     {
-                        DetermineMatch.setMatchedItems(matches, currentStaged, otherStagedFile);
+                        DetermineMatch.setMatchedItems(matches, newMemory, stagedMemory);
                     }
                 } catch (final Exception e)
                 {
@@ -108,12 +108,12 @@ public class RunnableMemoryChecker implements Runnable
 
             if (!matches.isEmpty())
             {
-                Reporter.reportDuplicates(currentStaged.getName(), matches);
+                Reporter.reportDuplicates(newMemory.getName(), matches);
             }
 
             final long endTime = System.nanoTime();
             final long totalTime = endTime - startTime;
-            System.out.println("Total  check  for file " + currentStaged.getName() + " took: " + Shared.printTotalTimeTaken(totalTime));
+            System.out.println("Total  check  for file " + newMemory.getName() + " took: " + Shared.printTotalTimeTaken(totalTime));
         } catch (final Exception e)
         {
             e.printStackTrace();

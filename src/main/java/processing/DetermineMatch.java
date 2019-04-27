@@ -11,22 +11,37 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class handles determining if two memories are the same
+ */
 class DetermineMatch
 {
-    public static boolean isProbablePictureMatch(final Memory test1, final Memory test2)
+    /**
+     * This determines if it is probable if two picture memories match
+     *
+     * @param test1 First Memory
+     * @param test2 Second Memory
+     * @return true if probable match
+     */
+    static boolean isProbablePictureMatch(final Memory test1, final Memory test2)
     {
-        //if we are doing picture matches, and neither is already matched, and they are not the same object
-        //and if the width and height match, and if the first few bytes match, then it's probable they are identical
-        return !test1.isMatched() && !test2.isMatched() && test1 != test2 &&
+        return !test1.isMatched() && !test2.isMatched() && !test1.equals(test2) &&
                 test1.isPicture() && test2.isPicture() &&
                 test1.getWidth() == test2.getWidth() &&
                 test1.getHeight() == test2.getHeight() &&
                 Arrays.equals(test1.getFirstBytes(), test2.getFirstBytes()) || isProbablePictureMatchRAW(test1, test2);
     }
 
+    /**
+     * This determines if it is probable if two picture memories match
+     *
+     * @param test1 First Memory
+     * @param test2 Second Memory
+     * @return true if probable match
+     */
     private static boolean isProbablePictureMatchRAW(final Memory test1, final Memory test2)
     {
-        return !test1.isMatched() && !test2.isMatched() && test1 != test2 &&
+        return !test1.isMatched() && !test2.isMatched() && !test1.equals(test2) &&
                 test1.isPicture() && test2.isPicture() &&
                 test1.getWidth() == test2.getWidth() &&
                 test1.getHeight() == test2.getHeight() &&
@@ -35,12 +50,26 @@ class DetermineMatch
                 test1.getDate().equals(test2.getDate());
     }
 
-    public static boolean isDuplicatePictureMatch(final byte[] tempByte, final File test2File)
+    /**
+     * This determines if two picture memories match by doing a pixel value test
+     *
+     * @param tempByte bytes of memory 1
+     * @param test2    Second Memory
+     * @return true if duplicate
+     */
+    static boolean isDuplicatePictureMatch(final byte[] tempByte, final File test2)
     {
-        return tempByte != null && Arrays.equals(tempByte, Shared.returnPixelVal(test2File));
+        return tempByte != null && Arrays.equals(tempByte, Shared.returnPixelVal(test2));
     }
 
-    public static boolean isDuplicatePictureMatchRAW(final Memory test1, final Memory test2)
+    /**
+     * This determines if two picture memories are the same for RAW types by comparing each metadata element
+     *
+     * @param test1 First Memory
+     * @param test2 Second Memory
+     * @return true if a match
+     */
+    static boolean isDuplicatePictureMatchRAW(final Memory test1, final Memory test2)
     {
         boolean same = true;
         if (test1.getMetadata() != null && test2.getMetadata() != null)
@@ -62,15 +91,30 @@ class DetermineMatch
         return same;
     }
 
-    public static boolean isPossibleVideoMatch(final Memory test1, final Memory test2)
+    /**
+     * This determines if the two memories passed in could be a match
+     *
+     * @param test1 First Memory
+     * @param test2 Second Memory
+     * @return true if probable match
+     */
+    static boolean isPossibleVideoMatch(final Memory test1, final Memory test2)
     {
         return !test1.isMatched() && !test2.isMatched() &&
                 test1.isVideo() && test2.isVideo() && test1 != test2 && test1.getSize() == test2.getSize();
     }
 
-    public static boolean isDuplicateVideo(final Path filea, final Path fileb) throws IOException
+    /**
+     * This determines if two video types memories are a match
+     *
+     * @param memoryOne First Memory
+     * @param memoryTwo Second Memory
+     * @return true if a match
+     * @throws IOException thrown if error occurs
+     */
+    static boolean isDuplicateVideo(final Path memoryOne, final Path memoryTwo) throws IOException
     {
-        final long size = Files.size(filea) / 20;
+        final long size = Files.size(memoryOne) / 20;
         final int mapspan = 4 * 1024 * 1024;
 
         MappedByteBuffer mbb;
@@ -79,8 +123,8 @@ class DetermineMatch
         final FileChannel chana;
         try
         {
-            chana = (FileChannel) Files.newByteChannel(filea);
-            chanb = (FileChannel) Files.newByteChannel(fileb);
+            chana = (FileChannel) Files.newByteChannel(memoryOne);
+            chanb = (FileChannel) Files.newByteChannel(memoryTwo);
 
             for (long position = 0; position < size; position += mapspan)
             {
@@ -98,6 +142,15 @@ class DetermineMatch
         return true;
     }
 
+    /**
+     * This returnes a certain portion of a video for checking duplicates
+     *
+     * @param channel  The channel for a memory
+     * @param position where to start
+     * @param size     how much to grab
+     * @return the next byteBuffer
+     * @throws IOException if error occurs
+     */
     private static MappedByteBuffer mapChannel(final FileChannel channel, final long position, final long size) throws IOException
     {
         final long end = Math.min(size, position + 4194304);
@@ -105,7 +158,13 @@ class DetermineMatch
         return channel.map(FileChannel.MapMode.READ_ONLY, position, maplen);
     }
 
-    public static void setMatchedItems(final ArrayList<Memory> matches, final Memory staged, final Memory current)
+    /**
+     * This sets the two matched memories up for reporting and moving later
+     * @param matches All matches for the memory
+     * @param staged The memory from Stage folder
+     * @param current The current memory
+     */
+    static void setMatchedItems(final ArrayList<Memory> matches, final Memory staged, final Memory current)
     {
         if (!matches.contains(staged))
         {
@@ -123,7 +182,5 @@ class DetermineMatch
         {
             current.setMatched(true);
         }
-
-        //Mover.moveImportFileMatched(staged);
     }
 }
