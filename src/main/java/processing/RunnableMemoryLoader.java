@@ -49,12 +49,11 @@ public class RunnableMemoryLoader
     private static List<Memory> listFiles(final UserInputObj userInputObj)
     {
         final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
-        System.out.println("Listing Files...");
         final List<Memory> objs = Collections.synchronizedList(new ArrayList<>());
 
         final ExecutorService pool = Executors.newFixedThreadPool(3);
 
-        if (files.isEmpty())
+        if (!files.isEmpty())
         {
             System.out.println("Loading memories..");
             for (final File file : files)
