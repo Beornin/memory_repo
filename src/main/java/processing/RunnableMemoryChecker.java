@@ -56,12 +56,10 @@ public class RunnableMemoryChecker implements Runnable
                         }
                     }
 
-                    if (DetermineMatch.isPossibleVideoMatch(currentStaged, currentFile))
+                    if (DetermineMatch.isPossibleVideoMatch(currentStaged, currentFile) &&
+                            DetermineMatch.isDuplicateVideo(currentStaged.getFile().toPath(), currentFile.getFile().toPath()))
                     {
-                        if (DetermineMatch.isDuplicateVideo(currentStaged.getFile().toPath(), currentFile.getFile().toPath()))
-                        {
-                            DetermineMatch.setMatchedItems(matches, currentStaged, currentFile);
-                        }
+                        DetermineMatch.setMatchedItems(matches, currentStaged, currentFile);
                     }
                 } catch (final Exception e)
                 {
@@ -97,12 +95,10 @@ public class RunnableMemoryChecker implements Runnable
                         }
                     }
 
-                    if (DetermineMatch.isPossibleVideoMatch(currentStaged, otherStagedFile))
+                    if (DetermineMatch.isPossibleVideoMatch(currentStaged, otherStagedFile) &&
+                            DetermineMatch.isDuplicateVideo(currentStaged.getFile().toPath(), otherStagedFile.getFile().toPath()))
                     {
-                        if (DetermineMatch.isDuplicateVideo(currentStaged.getFile().toPath(), otherStagedFile.getFile().toPath()))
-                        {
-                            DetermineMatch.setMatchedItems(matches, currentStaged, otherStagedFile);
-                        }
+                        DetermineMatch.setMatchedItems(matches, currentStaged, otherStagedFile);
                     }
                 } catch (final Exception e)
                 {

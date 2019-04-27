@@ -8,25 +8,37 @@ import java.util.concurrent.TimeUnit;
 
 public class Shared
 {
-    static byte[] returnPixelVal(final File in)
+    /**
+     * This method returns the bytes of the picture
+     *
+     * @param fileIn The file to process
+     * @return byte array of the picture
+     */
+    static byte[] returnPixelVal(final File fileIn)
     {
         final BufferedImage img;
-        final File f;
+        final File file;
         byte[] pixels = null;
         try
         {
-            f = in;
-            img = ImageIO.read(f);
+            file = fileIn;
+            img = ImageIO.read(file);
             pixels = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
         } catch (final Exception e)
         {
-            System.out.println(in.getPath());
+            System.out.println(fileIn.getPath());
             e.printStackTrace();
         }
 
         return pixels;
     }
 
+    /**
+     * This prints ouf the passed in total time formatted to a readable format
+     *
+     * @param totalTime The Time to parse
+     * @return human readable string of time
+     */
     public static String printTotalTimeTaken(final long totalTime)
     {
         final String res;

@@ -14,7 +14,7 @@ public class Reporter
 {
     public static void reportDuplicates(final String stageFileName, final ArrayList<Memory> matches)
     {
-        PrintWriter out = null;
+        final PrintWriter out;
         String outputPath = "Z:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator + stageFileName + "-matches.txt";
         final File test = new File(outputPath);
         if (test.exists())
@@ -23,10 +23,10 @@ public class Reporter
                     "-matches.txt";
         }
 
-        try (final FileWriter fw = new FileWriter(outputPath, true))
+        try
         {
-            final BufferedWriter bw = new BufferedWriter(fw);
-            out = new PrintWriter(bw);
+            final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputPath, true));
+            out = new PrintWriter(bufferedWriter);
 
             for (final Memory pic : matches)
             {
@@ -39,12 +39,6 @@ public class Reporter
         } catch (final Exception ex)
         {
             ex.printStackTrace();
-        } finally
-        {
-            if (out != null)
-            {
-                out.close();
-            }
         }
     }
 }

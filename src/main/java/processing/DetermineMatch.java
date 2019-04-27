@@ -1,6 +1,5 @@
 package processing;
 
-import io.Mover;
 import obj.Memory;
 
 import java.io.File;
@@ -18,11 +17,11 @@ class DetermineMatch
     {
         //if we are doing picture matches, and neither is already matched, and they are not the same object
         //and if the width and height match, and if the first few bytes match, then it's probable they are identical
-        return (!test1.isMatched() && !test2.isMatched() && test1 != test2 &&
+        return !test1.isMatched() && !test2.isMatched() && test1 != test2 &&
                 test1.isPicture() && test2.isPicture() &&
                 test1.getWidth() == test2.getWidth() &&
                 test1.getHeight() == test2.getHeight() &&
-                Arrays.equals(test1.getFirstBytes(), test2.getFirstBytes()) || isProbablePictureMatchRAW(test1, test2));
+                Arrays.equals(test1.getFirstBytes(), test2.getFirstBytes()) || isProbablePictureMatchRAW(test1, test2);
     }
 
     private static boolean isProbablePictureMatchRAW(final Memory test1, final Memory test2)

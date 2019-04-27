@@ -33,7 +33,7 @@ class Import
         final List<Memory> stagedMemories = RunnableMemoryLoader.gatherNewFiles(importUio);
 
         //If we have any staged files
-        if (stagedMemories != null && stagedMemories.size() > 0)
+        if (stagedMemories != null && stagedMemories.isEmpty())
         {
         /*make a thread runner to take 1 stage file, and compare to all of startingFiles
              if passes startingFiles test, see if any files are in the passed on z drive, add those into the check for this thread
@@ -57,8 +57,8 @@ class Import
             final ExecutorService pool = Executors.newFixedThreadPool(3);
             for (final Memory stageMemory : stagedMemories)
             {
-                final Runnable r1 = new RunnableMemoryChecker(stageMemory, stagedMemories, currentMemories);
-                pool.execute(r1);
+                final Runnable runnableMemoryChecker = new RunnableMemoryChecker(stageMemory, stagedMemories, currentMemories);
+                pool.execute(runnableMemoryChecker);
             }
             try
             {

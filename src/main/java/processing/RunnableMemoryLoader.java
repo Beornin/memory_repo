@@ -58,13 +58,13 @@ public class RunnableMemoryLoader
 
         final ExecutorService pool = Executors.newFixedThreadPool(3);
 
-        if (files.size() > 0)
+        if (files.isEmpty())
         {
             System.out.println("Loading memories..");
             for (final File file : files)
             {
-                final Runnable r1 = new MemoryCreate(userInputObj, file, objs);
-                pool.execute(r1);
+                final Runnable memoryCreate = new MemoryCreate(userInputObj, file, objs);
+                pool.execute(memoryCreate);
             }
             try
             {
