@@ -1,6 +1,9 @@
 package processing;
 
+import com.drew.metadata.Directory;
+import com.drew.metadata.Tag;
 import obj.Memory;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class handles determining if two memories are the same
@@ -72,20 +76,45 @@ class DetermineMatch
     static boolean isDuplicatePictureMatchRAW(final Memory test1, final Memory test2)
     {
         boolean same = true;
-        if (test1.getMetadata() != null && test2.getMetadata() != null)
+
+        try
         {
-            while (test1.getMetadata().getDirectories().iterator().hasNext())
+            if (test1.getMetadata() != null && test2.getMetadata() != null && test1.getMetadata().getDirectoryCount() == test2.getMetadata().getDirectoryCount())
             {
-                if (!test2.getMetadata().getDirectories().iterator().hasNext() ||
-                        !test1.getMetadata().getDirectories().iterator().next().equals(test2.getMetadata().getDirectories().iterator().next()))
+                final List<String> valuesTest1 = new ArrayList<>(test1.getMetadata().getDirectoryCount());
+
+                for (final Directory directory : test1.getMetadata().getDirectories())
                 {
-                    same = false;
-                    break;
+                    for (final Tag tag : directory.getTags())
+                    {
+                        valuesTest1.add(tag.getDescription());
+                    }
+                }
+
+                int position = 0;
+                for (final Directory directory : test2.getMetadata().getDirectories())
+                {
+                    for (final Tag tag : directory.getTags())
+                    {
+                        if (StringUtils.equals(valuesTest1.get(position), tag.getDescription()))
+                        {
+                            position++;
+                        }
+                        else
+                        {
+                            same = false;
+                            break;
+                        }
+                    }
                 }
             }
-        }
-        else
+            else
+            {
+                same = false;
+            }
+        } catch (final Exception e)
         {
+            e.printStackTrace();
             same = false;
         }
         return same;
@@ -160,8 +189,9 @@ class DetermineMatch
 
     /**
      * This sets the two matched memories up for reporting and moving later
+     *
      * @param matches All matches for the memory
-     * @param staged The memory from Stage folder
+     * @param staged  The memory from Stage folder
      * @param current The current memory
      */
     static void setMatchedItems(final ArrayList<Memory> matches, final Memory staged, final Memory current)
