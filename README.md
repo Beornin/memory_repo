@@ -13,8 +13,7 @@ Maven to build
 drewnoakes/metadata-extractor
 ## Performance
 My current system is a i5-7600K (4core/4thread) running at 4.5Ghz with 16GB RAM. I usually allocate 10+ GB to the JVM.
-I have ~68,000 current memories in my repo. During testing, while using 3 threads in the pools,
-I would have 3,755 memories loaded from Staging in ~4minutes, and the ~68,000 current memories loaded in ~1hour & 20minutes.
-The time to check the 3,755 against the current repo took ~13minutes. So in total, about an hour and a half from start to memories sorted.
+I have ~70,000 current memories in my repo. During testing, while using 3 threads in the pools,
+The ~70,000 current memories loaded in ~1hour & 20minutes. So in total, about an hour and a fourty minutes from start to memories sorted.
 ## Credits
 Special shout out to drewnoakes for the metadata-extractor project which helped so much in bringing this to creation: https://github.com/drewnoakes/metadata-extractor
