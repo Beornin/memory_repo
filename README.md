@@ -14,6 +14,6 @@ drewnoakes/metadata-extractor
 ## Performance
 My current system is a i5-7600K (4core/4thread) running at 4.5Ghz with 16GB RAM. I usually allocate 10+ GB to the JVM.
 I have ~70,000 current memories in my repo, about 1.65TB. During testing, while using 3 threads in the pools,
-The ~70,000 current memories loaded in ~1hour & 20minutes. So in total, about an hour and a fourty minutes from start to memories sorted.
+The ~70,000 current memories loaded in ~1hour & 20minutes. So in total, about an hour and a fourty minutes from start to memories sorted. A new feature is a cached list of what data can be serialized. If this list exists already, it becomes about a 30-50 minute check from start to finish instead.
 ## Credits
 Special shout out to drewnoakes for the metadata-extractor project which helped so much in bringing this to creation: https://github.com/drewnoakes/metadata-extractor
