@@ -3,8 +3,9 @@ package obj;
 import com.drew.metadata.Metadata;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class Memory
+public class Memory implements Serializable
 {
     private String path;
     private String name;
@@ -20,7 +21,8 @@ public class Memory
     private boolean imported;//use to know if this is the new one that is bad or not
 
     //RAW types
-    private Metadata metadata;
+    private transient Metadata metadata;
+    private boolean metaDataLoaded = false;
     private String date;
 
     public boolean isImported()
@@ -141,6 +143,16 @@ public class Memory
     public void setMetadata(final Metadata metadata)
     {
         this.metadata = metadata;
+    }
+
+    public boolean isMetaDataLoaded()
+    {
+        return metaDataLoaded;
+    }
+
+    public void setMetaDataLoaded(final boolean metaDataLoaded)
+    {
+        this.metaDataLoaded = metaDataLoaded;
     }
 
     public String getDate()

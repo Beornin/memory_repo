@@ -146,6 +146,7 @@ class MemoryCreate implements Runnable
 
                         final ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
                         memory.setDate(exifSubIFDDirectory.getString(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL));
+                        memory.setMetaDataLoaded(true);
 
                     } catch (final ImageProcessingException | IOException | NullPointerException ipe)
                     {
