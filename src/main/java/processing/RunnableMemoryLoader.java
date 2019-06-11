@@ -1,5 +1,6 @@
 package processing;
 
+import io.CacheMemories;
 import obj.Memory;
 import obj.UserInputObj;
 import org.apache.commons.io.FileUtils;
@@ -20,11 +21,11 @@ public class RunnableMemoryLoader
             "GIF", "PNG", "BMP", "JPG", "JPEG", "HEIC", "MP4", "MOV", "MP4", "MOV", "AVI", "VLC", "WMV", "RAW", "CR2", "TIFF", "TIF"
     };
 
-    public static List<Memory> gatherCurrentFiles(final UserInputObj uio)
+    public static List<Memory> gatherCurrentFiles(final UserInputObj uio, final boolean cache)
     {
         final long startTime1 = System.nanoTime();
 
-        final List<Memory> possibleMatches = RunnableMemoryLoader.listFiles(uio);
+        final List<Memory> possibleMatches = RunnableMemoryLoader.loadCurrentMemories(uio, cache);
 
         final long endTime1 = System.nanoTime();
         final long totalTime1 = endTime1 - startTime1;
@@ -37,7 +38,7 @@ public class RunnableMemoryLoader
     {
         final long startTime1 = System.nanoTime();
 
-        final List<Memory> possibleMatches = RunnableMemoryLoader.listFiles(uio);
+        final List<Memory> possibleMatches = RunnableMemoryLoader.loadNewMemories(uio);
 
         final long endTime1 = System.nanoTime();
         final long totalTime1 = endTime1 - startTime1;
@@ -46,19 +47,47 @@ public class RunnableMemoryLoader
         return possibleMatches;
     }
 
-    private static List<Memory> listFiles(final UserInputObj userInputObj)
+    private static List<Memory> loadCurrentMemories(final UserInputObj userInputObj, final boolean cache)
     {
         final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
-        final List<Memory> objs = Collections.synchronizedList(new ArrayList<>());
+        final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
 
-        final ExecutorService pool = Executors.newFixedThreadPool(3);
+        //if the cache file exists, process it,. This can trim down the files collection and
+        if (cache && CacheMemories.cacheFileExists())
+        {
+            CacheMemories.readCurrentMemories(userInputObj, memories, files);
+        }
+
+        //this would load any remaining files from CacheMemories into memories
+        loadMemories(userInputObj, files, memories);
+
+        files.clear();
+
+        return memories;
+    }
+
+    private static List<Memory> loadNewMemories(final UserInputObj userInputObj)
+    {
+        final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
+        final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
+
+        loadMemories(userInputObj, files, memories);
+
+        files.clear();
+
+        return memories;
+    }
+
+    private static void loadMemories(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
+    {
+        final ExecutorService pool = Executors.newFixedThreadPool(2);
 
         if (!files.isEmpty())
         {
             System.out.println("Loading memories..");
             for (final File file : files)
             {
-                final Runnable memoryCreate = new MemoryCreate(userInputObj, file, objs);
+                final Runnable memoryCreate = new MemoryCreate(userInputObj, file, memories);
                 pool.execute(memoryCreate);
             }
             try
@@ -72,7 +101,5 @@ public class RunnableMemoryLoader
                 ie.printStackTrace();
             }
         }
-        files.clear();
-        return objs;
     }
 }

@@ -1,3 +1,4 @@
+import io.CacheMemories;
 import io.Mover;
 import obj.Memory;
 import obj.UserInputObj;
@@ -13,9 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Issue when 2 files named same in staging are put in same pass/flagged folder
- */
+
 class Import
 {
     private static void mainProcess()
@@ -41,18 +40,18 @@ class Import
             userInputObj.setImported(false);
             userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
             System.out.println("Getting current memories...");
-            currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj);
+            currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj, true);
 
             //Gather up all in Pass that have not been added to repo yet
             final UserInputObj passedUio = new UserInputObj();
             passedUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Pass"));
             passedUio.setImported(false);
             System.out.println("Getting previous passed memories...");
-            final List<Memory> passedMemories = RunnableMemoryLoader.gatherCurrentFiles(passedUio);
+            final List<Memory> passedMemories = RunnableMemoryLoader.gatherCurrentFiles(passedUio, false);
             //add in to are shared ones since these previously passed validations
             currentMemories.addAll(passedMemories);
 
-            final ExecutorService pool = Executors.newFixedThreadPool(3);
+            final ExecutorService pool = Executors.newFixedThreadPool(2);
             for (final Memory stageMemory : stagedMemories)
             {
                 final Runnable runnableMemoryChecker = new RunnableMemoryChecker(stageMemory, stagedMemories, currentMemories);
@@ -62,7 +61,7 @@ class Import
             {
                 pool.shutdown();
                 //Wait for threads to all stop
-                pool.awaitTermination(1, TimeUnit.DAYS);
+                pool.awaitTermination(12, TimeUnit.HOURS);
 
             } catch (final InterruptedException ie)
             {
@@ -81,6 +80,8 @@ class Import
                     Mover.movePassed(currentMemory);
                 }
             }
+
+            CacheMemories.cacheCurrentMemories(currentMemories);
         }
 
         final long endTime = System.nanoTime();
