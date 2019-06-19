@@ -1,9 +1,9 @@
 # memory_sorter2
 memory_sorter2 allows staging and checking against a current photo/video repository to flag duplicate and allow non-duplicates into the library.
 ## Motivation
-Being the family's tech person, I took it upon myself became the family's photo and video repository manager.
+Being the family's tech person, I took it upon myself to condense all the pictures and videos (memories) into one repository.
  I soon found there were many duplicates in our current repo. Using memory_sorter1, I was able to
-start with a clean baseline, and then using memory_sorter2, I am able to keep most duplicate photos and 
+start with a clean baseline, and then using memory_sorter2, I am able to keep duplicate photos and 
 videos from finding their way into our library. While I did see other free and paid software's that do things similar, most seemed to look
  only at a date and size, but I was looking for actual image comparisons, which some file types will be checked by. I also did not fully trust an outside
  software looking over all these files in detail, so I opted to test my coding skill out to make these two apps as well as keep things in house.
@@ -12,8 +12,10 @@ Maven to build
 
 drewnoakes/metadata-extractor
 ## Performance
-My current system is a i5-7600K (4core/4thread) running at 4.5Ghz with 16GB RAM. I usually allocate 10+ GB to the JVM.
-I have ~70,000 current memories in my repo, about 1.65TB. During testing, while using 3 threads in the pools,
-The ~70,000 current memories loaded in ~1hour & 20minutes. So in total, about an hour and a fourty minutes from start to memories sorted. A new feature is a cached list of what data can be serialized. If this list exists already, it becomes about a 30-50 minute check from start to finish instead.
+My current system is a i5-7600K (4core/4thread) running at 5Ghz with 16GB RAM. I usually allocate 10+ GB to the JVM.
+I have ~70,000 current memories in my repo, about 1.7TB. During testing, while using 3 threads in the pools,
+The ~70,000 current memories loaded in ~1hour & 20minutes. So in total, about an hour and a fourty minutes from start to memories sorted.
+
+A new feature is a cached list of what data can be serialized (saved to a .beo file). If this list exists already, it becomes about a 30-50 minute check from start to finish instead.
 ## Credits
 Special shout out to drewnoakes for the metadata-extractor project which helped so much in bringing this to creation: https://github.com/drewnoakes/metadata-extractor
