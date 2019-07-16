@@ -1,9 +1,9 @@
-# memory_sorter2
-memory_sorter2 allows staging and checking against a current photo/video repository to flag duplicate and allow non-duplicates into the library.
+# memory_sorter
+memory_sorter allows staging and checking against a current photo/video repository to flag duplicate and allow non-duplicates into the library.
 ## Motivation
 Being the family's tech person, I took it upon myself to condense all the pictures and videos (memories) into one repository.
  I soon found there were many duplicates in our current repo. Using memory_sorter1, I was able to
-start with a clean baseline, and then using memory_sorter2, I am able to keep duplicate photos and 
+start with a clean baseline, and then using memory_sorter, I am able to keep duplicate photos and 
 videos from finding their way into our library. While I did see other free and paid software's that do things similar, most seemed to look
  only at a date and size, but I was looking for actual image comparisons, which some file types will be checked by. I also did not fully trust an outside
  software looking over all these files in detail, so I opted to test my coding skill out to make these two apps as well as keep things in house.
