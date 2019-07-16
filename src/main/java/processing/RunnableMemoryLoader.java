@@ -47,6 +47,19 @@ public class RunnableMemoryLoader
         return possibleMatches;
     }
 
+    public static List<Memory> loadFolderMemories(final UserInputObj userInputObj)
+    {
+        final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
+        final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
+
+        //this would load any remaining files from CacheMemories into memories
+        loadMemories2(userInputObj, files, memories);
+
+        files.clear();
+
+        return memories;
+    }
+
     private static List<Memory> loadCurrentMemories(final UserInputObj userInputObj, final boolean cache)
     {
         final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
@@ -76,6 +89,31 @@ public class RunnableMemoryLoader
         files.clear();
 
         return memories;
+    }
+
+    private static void loadMemories2(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
+    {
+        final ExecutorService pool = Executors.newFixedThreadPool(2);
+
+        if (!files.isEmpty())
+        {
+            System.out.println("Loading memories..");
+            for (final File file : files)
+            {
+                final Runnable memoryCreate = new MemoryCreateMeta(userInputObj, file, memories);
+                pool.execute(memoryCreate);
+            }
+            try
+            {
+                pool.shutdown();
+                //Wait for threads to all stop
+                pool.awaitTermination(1, TimeUnit.DAYS);
+
+            } catch (final InterruptedException ie)
+            {
+                ie.printStackTrace();
+            }
+        }
     }
 
     private static void loadMemories(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
