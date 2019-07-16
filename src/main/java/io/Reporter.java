@@ -47,4 +47,33 @@ public class Reporter
             ex.printStackTrace();
         }
     }
+
+    /**
+     * This creates a text file to show what new memory matched a current memory
+     *
+     * @param matches The matches found
+     */
+    public static void reportDuplicates(final ArrayList<Memory> matches)
+    {
+        final PrintWriter out;
+        final String outputPath = System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "matches.txt";
+
+        try
+        {
+            final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputPath, true));
+            out = new PrintWriter(bufferedWriter);
+
+            for (final Memory pic : matches)
+            {
+                out.println(pic.getPath());
+            }
+            out.println("*******************************************************************************");
+            out.flush();
+            out.close();
+
+        } catch (final Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 }
