@@ -33,7 +33,7 @@ class Import
         final List<Memory> stagedMemories = RunnableMemoryLoader.gatherNewFiles(importUio);
 
         //If we have any staged files
-        if (stagedMemories != null && !stagedMemories.isEmpty())
+        if (!stagedMemories.isEmpty())
         {
             //Get all the current files on repo
             final UserInputObj userInputObj = new UserInputObj();

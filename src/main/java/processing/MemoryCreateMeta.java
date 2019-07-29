@@ -19,8 +19,8 @@ import java.util.List;
 
 class MemoryCreateMeta implements Runnable
 {
-    final String pattern = "yyyy-MM-dd";
-    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    private final String pattern = "yyyy-MM-dd";
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private static final String[] PICTURE_EXTENSIONS = new String[]{
             "gif", "png", "bmp", "jpg", "jpeg", "heic"
     };

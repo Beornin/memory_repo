@@ -29,6 +29,7 @@ public class MemoryChecker
                 matches.clear();
                 for (final Memory currentMemory : currentMemories)
                 {
+                    //if the memory  is already matched or is the same memory, skip it
                     if (currentMemory.isMatched() || checkMemory.equals(currentMemory))
                     {
                         continue;
@@ -65,6 +66,10 @@ public class MemoryChecker
                 if (!matches.isEmpty())
                 {
                     Reporter.reportDuplicates(matches);
+                }
+                else
+                {
+                    checkMemory.setMatched(true);
                 }
 
                 if (counter % 10000 == 0)

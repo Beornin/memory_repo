@@ -141,8 +141,8 @@ class MemoryCreate implements Runnable
                         memory.setMetadata(metadata);
 
                         final ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-                        memory.setWidth(Integer.valueOf(exifIFD0Directory.getString(ExifIFD0Directory.TAG_IMAGE_WIDTH)));
-                        memory.setHeight(Integer.valueOf(exifIFD0Directory.getString(ExifIFD0Directory.TAG_IMAGE_HEIGHT)));
+                        memory.setWidth(Integer.parseInt(exifIFD0Directory.getString(ExifIFD0Directory.TAG_IMAGE_WIDTH)));
+                        memory.setHeight(Integer.parseInt(exifIFD0Directory.getString(ExifIFD0Directory.TAG_IMAGE_HEIGHT)));
 
                         final ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
                         memory.setDate(exifSubIFDDirectory.getString(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL));
