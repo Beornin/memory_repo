@@ -1,6 +1,7 @@
 package obj;
 
 import com.drew.metadata.Metadata;
+import processing.DetermineMatch;
 
 import java.io.File;
 import java.io.Serializable;
@@ -163,5 +164,18 @@ public class Memory implements Serializable
     public void setDate(final String date)
     {
         this.date = date;
+    }
+
+    public boolean equals(final Memory m2, final byte[] tempByte) throws Exception
+    {
+        if (DetermineMatch.isProbablePictureMatch(this, m2))
+        {
+            if (this.getMetadata() == null && m2.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, m2.getFile()))
+            {
+                return true;
+            }
+            else return this.getMetadata() != null && m2.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(this, m2);
+        }
+        else return DetermineMatch.isPossibleVideoMatch(this, m2) && DetermineMatch.isDuplicateVideo(this.getFile().toPath(), m2.getFile().toPath());
     }
 }

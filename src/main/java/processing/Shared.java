@@ -14,7 +14,7 @@ public class Shared
      * @param fileIn The file to process
      * @return byte array of the picture
      */
-    static byte[] returnPixelVal(final File fileIn)
+    public static byte[] returnPixelVal(final File fileIn)
     {
         final BufferedImage img;
         final File file;

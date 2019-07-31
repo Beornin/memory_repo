@@ -51,7 +51,7 @@ class Import
             //add in to are shared ones since these previously passed validations
             currentMemories.addAll(passedMemories);
 
-            final ExecutorService pool = Executors.newFixedThreadPool(2);
+            final ExecutorService pool = Executors.newFixedThreadPool(4);
             for (final Memory stageMemory : stagedMemories)
             {
                 final Runnable runnableMemoryChecker = new RunnableMemoryChecker(stageMemory, stagedMemories, currentMemories);

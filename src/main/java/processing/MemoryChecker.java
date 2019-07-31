@@ -8,7 +8,6 @@ import java.util.List;
 
 public class MemoryChecker
 {
-
     public static void checkForDuplicateMemories(final List<Memory> currentMemories)
     {
         try
@@ -18,6 +17,7 @@ public class MemoryChecker
             int counter = 0;
             //if we have to fully scan the pic, save it so we don't do it each time
             byte[] tempByte = null;
+            Memory innerMemory;
             for (final Memory checkMemory : currentMemories)
             {
                 counter++;
@@ -27,16 +27,28 @@ public class MemoryChecker
                     continue;
                 }
                 matches.clear();
-                for (final Memory currentMemory : currentMemories)
+                for (int iCount = counter + 1; iCount < currentMemories.size(); iCount++)
                 {
+                    innerMemory = currentMemories.get(iCount);
+
                     //if the memory  is already matched or is the same memory, skip it
-                    if (currentMemory.isMatched() || checkMemory.equals(currentMemory))
+                    if (innerMemory.isMatched() || checkMemory.equals(innerMemory))
                     {
                         continue;
                     }
                     try
                     {
-                        if (DetermineMatch.isProbablePictureMatch(checkMemory, currentMemory))
+                        if (tempByte == null && checkMemory.getMetadata() == null)
+                        {
+                            tempByte = Shared.returnPixelVal(checkMemory.getFile());
+                        }
+
+                        if (checkMemory.equals(innerMemory, tempByte))
+                        {
+                            DetermineMatch.setMatchedItems(matches, checkMemory, innerMemory);
+                        }
+
+                       /* if (DetermineMatch.isProbablePictureMatch(checkMemory, currentMemory))
                         {
                             if (tempByte == null && checkMemory.getMetadata() == null)
                             {
@@ -57,7 +69,7 @@ public class MemoryChecker
                                 DetermineMatch.isDuplicateVideo(checkMemory.getFile().toPath(), currentMemory.getFile().toPath()))
                         {
                             DetermineMatch.setMatchedItems(matches, checkMemory, currentMemory);
-                        }
+                        }*/
                     } catch (final Exception e)
                     {
                         e.printStackTrace();
@@ -66,10 +78,6 @@ public class MemoryChecker
                 if (!matches.isEmpty())
                 {
                     Reporter.reportDuplicates(matches);
-                }
-                else
-                {
-                    checkMemory.setMatched(true);
                 }
 
                 if (counter % 10000 == 0)

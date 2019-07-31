@@ -93,7 +93,7 @@ public class RunnableMemoryLoader
 
     private static void loadMemories2(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
     {
-        final ExecutorService pool = Executors.newFixedThreadPool(2);
+        final ExecutorService pool = Executors.newFixedThreadPool(4);
 
         if (!files.isEmpty())
         {
@@ -118,7 +118,7 @@ public class RunnableMemoryLoader
 
     private static void loadMemories(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
     {
-        final ExecutorService pool = Executors.newFixedThreadPool(2);
+        final ExecutorService pool = Executors.newFixedThreadPool(4);
 
         if (!files.isEmpty())
         {
