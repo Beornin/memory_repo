@@ -1,5 +1,6 @@
 # memory_sorter
 memory_sorter is a program developed to make it easier to setup and manage photo and videos (memories) in a single repository
+
 ## Motivation
 Being the tech person of the family, I took it upon myself to consolidate all the memories into one repository and make sure no memory is not backed up to external drives. Great grandparents bringing out photos of past family members or childhood photos is something I wanted to continue in our family in this digital age. In consolidating everyones memories into one directory, I saw there were many duplicates. Thus I had a problem, how to remove them but also how to check new memories brought in from phones and cameras to make sure no new duplicates come in?
 
@@ -17,9 +18,10 @@ There are currently 4 runnable files.
 *DateSortFolder* - This I use on a few folders of memories that I want to attempt to sort them out by date taken/created/modified.
 
 ## Performance
-My current system is a i5-7600K (4core/4thread) running at 5 Ghz with 32GB RAM. I usually allocate 15+ GB to the JVM.
-I have ~79,000 current memories in my repo, about 2 TB.
-!TODO: fill out new performance metrics based off latest for each runner
+My current system is a i5-7600K (4core/4thread) running at 5 Ghz with 32GB RAM (DDR4-3200). I usually allocate 15+ GB to the JVM.
+I have ~79,000 current memories in my repo, about 2 TB on a standard 5400 RPM hard drive.
+*RepoChecker* - (4threads) Total check for 78395 memories took: 03(h)51(m) / Total process time for 78395 memories took: 05(h)05(m)
+*Import* - (4threads) Total check between 80447 starting memories and 85 staged memories took: 42(m)19(s)
 
 ## Credits
 Special shout out to drewnoakes for the metadata-extractor project which helped so much in bringing this to creation: https://github.com/drewnoakes/metadata-extractor
