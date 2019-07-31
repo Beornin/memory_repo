@@ -20,7 +20,9 @@ There are currently 4 runnable files.
 ## Performance
 My current system is a i5-7600K (4core/4thread) running at 5 Ghz with 32GB RAM (DDR4-3200). I usually allocate 15+ GB to the JVM.
 I have ~79,000 current memories in my repo, about 2 TB on a standard 5400 RPM hard drive.
+
 *RepoChecker* - (4threads) Total check for 78395 memories took: 03(h)51(m) / Total process time for 78395 memories took: 05(h)05(m)
+
 *Import* - (4threads) Total check between 80447 starting memories and 85 staged memories took: 42(m)19(s)
 
 ## Credits
