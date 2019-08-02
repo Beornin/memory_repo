@@ -19,8 +19,6 @@ import java.util.List;
 
 class MemoryCreateMeta implements Runnable
 {
-    private final String pattern = "yyyy-MM-dd";
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private static final String[] PICTURE_EXTENSIONS = new String[]{
             "gif", "png", "bmp", "jpg", "jpeg", "heic"
     };
@@ -30,6 +28,8 @@ class MemoryCreateMeta implements Runnable
     private static final String[] VIDEO_EXTENSIONS = new String[]{
             "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv"
     };
+    private final String pattern = "yyyy-MM-dd";
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private final File file;
     private final List<Memory> memories;
     private final UserInputObj userIo;
