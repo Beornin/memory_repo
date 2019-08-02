@@ -33,6 +33,7 @@ public class DetermineMatch
                 test1.isPicture() && test2.isPicture() &&
                 test1.getWidth() == test2.getWidth() &&
                 test1.getHeight() == test2.getHeight() &&
+                test1.getSize() == test2.getSize() &&
                 Arrays.equals(test1.getFirstBytes(), test2.getFirstBytes()) || isProbablePictureMatchRAW(test1, test2);
     }
 
@@ -51,6 +52,7 @@ public class DetermineMatch
                 test1.getHeight() == test2.getHeight() &&
                 test1.getMetadata() != null &&
                 test2.getMetadata() != null &&
+                test1.getSize() == test2.getSize() &&
                 test1.getDate().equals(test2.getDate());
     }
 
