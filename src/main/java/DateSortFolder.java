@@ -50,20 +50,20 @@ class DateSortFolder
                 {
                     attr = Files.readAttributes(memory.getFile().toPath(), BasicFileAttributes.class);
                     creationDate = new Date(attr.creationTime().to(TimeUnit.MILLISECONDS));
-                    Files.createDirectories(Paths.get(exportFolder +  simpleDateFormat2.format(creationDate)+ "-CRT"));
+                    Files.createDirectories(Paths.get(exportFolder + simpleDateFormat2.format(creationDate) + "-CRT"));
                     if (!new File(exportFolder + simpleDateFormat2.format(creationDate) + "-CRT" + File.separator + memory.getName()).exists())
                     {
-                        Files.copy(memory.getFile().toPath(), Paths.get(exportFolder + simpleDateFormat2.format(creationDate) + "-CRT"+ File.separator + memory.getName()));
+                        Files.copy(memory.getFile().toPath(), Paths.get(exportFolder + simpleDateFormat2.format(creationDate) + "-CRT" + File.separator + memory.getName()));
                     }
                     else
                     {
                         int num = 0;
                         String save;
-                        File saveFile = new File(exportFolder +  simpleDateFormat2.format(creationDate) + "-CRT" + File.separator + memory.getName());
+                        File saveFile = new File(exportFolder + simpleDateFormat2.format(creationDate) + "-CRT" + File.separator + memory.getName());
                         while (saveFile.exists())
                         {
                             save = num++ + memory.getName();
-                            saveFile = new File(exportFolder +  simpleDateFormat2.format(creationDate) + "-CRT" + File.separator + save);
+                            saveFile = new File(exportFolder + simpleDateFormat2.format(creationDate) + "-CRT" + File.separator + save);
                         }
                         Files.copy(memory.getFile().toPath(), Paths.get(saveFile.toURI()));
                     }
