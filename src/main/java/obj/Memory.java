@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 public class Memory implements Serializable
 {
+    private static final long serialVersionUID = 6990332356547600903L;
     private String path;
     private String name;
     private byte[] firstBytes;

@@ -22,7 +22,7 @@ class RepoCheck
         userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
 
         System.out.println("Getting current memories...");
-        final List<Memory> currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj, false);
+        final List<Memory> currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj, true);
 
         System.out.println("Checking current memories...");
         MemoryChecker.checkForDuplicateMemories(currentMemories);
