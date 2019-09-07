@@ -1,8 +1,8 @@
 package processing;
 
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -14,19 +14,19 @@ public class Shared
      * @param fileIn The file to process
      * @return byte array of the picture
      */
-    public static byte[] returnPixelVal(final File fileIn)
+    public static int[] returnPixelVal(final File fileIn)
     {
         final BufferedImage img;
         final File file;
-        byte[] pixels = null;
+        int[] pixels = null;
         try
         {
             file = fileIn;
             img = ImageIO.read(file);
-            pixels = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+            pixels = img.getRGB(0, 0, img.getWidth(), img.getHeight(), null, 0, img.getWidth());
         } catch (final Exception e)
         {
-            System.out.println(fileIn.getPath());
+            System.out.println("Exception in return Pixel Val with :" + fileIn.getPath());
             e.printStackTrace();
         }
 
