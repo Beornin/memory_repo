@@ -27,7 +27,7 @@ public class DeleteMatches
             while ((line = br.readLine()) != null)
             {
                 line = line.trim();
-                if (StringUtils.isNotEmpty(line) && !StringUtils.startsWith("xxx", line) && !StringUtils.startsWith("***", line))
+                if (StringUtils.isNotEmpty(line) && !StringUtils.startsWith(line,"xxx") && !StringUtils.equals("*******************************************************************************", line))
                 {
                     final File file = new File(line);
                     files.add(file);
@@ -42,9 +42,8 @@ public class DeleteMatches
             try
             {
                 Files.delete(Paths.get(temp.getPath()));
-            } catch (final Exception e)
+            } catch (final Exception ignored)
             {
-                e.printStackTrace();
             }
         }
     }

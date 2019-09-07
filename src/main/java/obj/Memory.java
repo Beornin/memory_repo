@@ -10,7 +10,7 @@ public class Memory implements Serializable
     private static final long serialVersionUID = 6990332356547600903L;
     private String path;
     private String name;
-    private byte[] firstBytes;
+    private int[] firstRgb;
     private int width;
     private int height;
     private File file;
@@ -56,14 +56,14 @@ public class Memory implements Serializable
         this.name = name;
     }
 
-    public byte[] getFirstBytes()
+    public int[] getFirstRgb()
     {
-        return firstBytes;
+        return firstRgb;
     }
 
-    public void setFirstBytes(final byte[] firstBytes)
+    public void setFirstRgb(final int[] firstRgb)
     {
-        this.firstBytes = firstBytes;
+        this.firstRgb = firstRgb;
     }
 
     public File getFile()
