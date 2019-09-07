@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * This class handles determining if two memories are the same
  */
-public class DetermineMatch
+class DetermineMatch
 {
     /**
      * This determines if it is probable if two picture memories match

@@ -2,7 +2,7 @@ package obj;
 
 import java.io.File;
 
-public class UserInputObj
+public class UserInput
 {
     private boolean imported;
     private File startingFolder = new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos");

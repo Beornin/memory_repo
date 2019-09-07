@@ -1,7 +1,7 @@
 import io.CacheMemories;
 import io.Mover;
 import obj.Memory;
-import obj.UserInputObj;
+import obj.UserInput;
 import processing.RunnableMemoryChecker;
 import processing.RunnableMemoryLoader;
 import processing.Shared;
@@ -26,7 +26,7 @@ class Import
         Mover.moveToStaging();
 
         //Then gather up the staged files
-        final UserInputObj importUio = new UserInputObj();
+        final UserInput importUio = new UserInput();
         importUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Stage"));
         importUio.setImported(true);
         System.out.println("Getting STAGE memories...");
@@ -36,14 +36,14 @@ class Import
         if (!stagedMemories.isEmpty())
         {
             //Get all the current files on repo
-            final UserInputObj userInputObj = new UserInputObj();
-            userInputObj.setImported(false);
-            userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
+            final UserInput userInput = new UserInput();
+            userInput.setImported(false);
+            userInput.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
             System.out.println("Getting current memories...");
-            currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj, true);
+            currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInput, true);
 
             //Gather up all in Pass that have not been added to repo yet
-            final UserInputObj passedUio = new UserInputObj();
+            final UserInput passedUio = new UserInput();
             passedUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Pass"));
             passedUio.setImported(false);
             System.out.println("Getting previous passed memories...");

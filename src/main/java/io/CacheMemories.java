@@ -6,7 +6,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import obj.Memory;
-import obj.UserInputObj;
+import obj.UserInput;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,7 +70,7 @@ public class CacheMemories
     }
 
     @SuppressWarnings("unchecked")
-    public static void readCurrentMemories(final UserInputObj userInputObj, final List<Memory> memories, final Collection<File> files)
+    public static void readCurrentMemories(final UserInput userInput, final List<Memory> memories, final Collection<File> files)
     {
         try
         {
@@ -105,7 +105,7 @@ public class CacheMemories
                         try
                         {
                             final Metadata metadata = ImageMetadataReader.readMetadata(memory.getFile());
-                            memory.setMetadata((metadata));
+                            memory.setMetadata(metadata);
 
                             final ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
                             memory.setWidth(Integer.parseInt(exifIFD0Directory.getString(ExifIFD0Directory.TAG_IMAGE_WIDTH)));

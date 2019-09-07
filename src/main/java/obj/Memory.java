@@ -23,7 +23,7 @@ public class Memory implements Serializable
 
     //RAW types
     private transient Metadata metadata;
-    private boolean metaDataLoaded = false;
+    private boolean metaDataLoaded;
     private String date;
 
     public boolean isImported()

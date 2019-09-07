@@ -2,7 +2,7 @@ package processing;
 
 import io.CacheMemories;
 import obj.Memory;
-import obj.UserInputObj;
+import obj.UserInput;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public class RunnableMemoryLoader
             "GIF", "PNG", "BMP", "JPG", "JPEG", "HEIC", "MP4", "MOV", "MP4", "MOV", "AVI", "VLC", "WMV", "RAW", "CR2", "TIFF", "TIF"
     };
 
-    public static List<Memory> gatherCurrentFiles(final UserInputObj uio, final boolean cache)
+    public static List<Memory> gatherCurrentFiles(final UserInput uio, final boolean cache)
     {
         final long startTime1 = System.nanoTime();
 
@@ -34,7 +34,7 @@ public class RunnableMemoryLoader
         return possibleMatches;
     }
 
-    public static List<Memory> gatherNewFiles(final UserInputObj uio)
+    public static List<Memory> gatherNewFiles(final UserInput uio)
     {
         final long startTime1 = System.nanoTime();
 
@@ -47,51 +47,51 @@ public class RunnableMemoryLoader
         return possibleMatches;
     }
 
-    public static List<Memory> loadFolderMemories(final UserInputObj userInputObj)
+    public static List<Memory> loadFolderMemories(final UserInput userInput)
     {
-        final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
+        final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), ALL_EXTENSIONS, true);
         final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
 
         //this would load any remaining files from CacheMemories into memories
-        loadMemories2(userInputObj, files, memories);
+        loadMemories2(userInput, files, memories);
 
         files.clear();
 
         return memories;
     }
 
-    private static List<Memory> loadCurrentMemories(final UserInputObj userInputObj, final boolean cache)
+    private static List<Memory> loadCurrentMemories(final UserInput userInput, final boolean cache)
     {
-        final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
+        final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), ALL_EXTENSIONS, true);
         final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
 
         //if the cache file exists, process it,. This can trim down the files collection and
         if (cache && CacheMemories.cacheFileExists())
         {
-            CacheMemories.readCurrentMemories(userInputObj, memories, files);
+            CacheMemories.readCurrentMemories(userInput, memories, files);
         }
 
         //this would load any remaining files from CacheMemories into memories
-        loadMemories(userInputObj, files, memories);
+        loadMemories(userInput, files, memories);
 
         files.clear();
 
         return memories;
     }
 
-    private static List<Memory> loadNewMemories(final UserInputObj userInputObj)
+    private static List<Memory> loadNewMemories(final UserInput userInput)
     {
-        final Collection<File> files = FileUtils.listFiles(userInputObj.getStartingFolder(), ALL_EXTENSIONS, true);
+        final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), ALL_EXTENSIONS, true);
         final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
 
-        loadMemories(userInputObj, files, memories);
+        loadMemories(userInput, files, memories);
 
         files.clear();
 
         return memories;
     }
 
-    private static void loadMemories2(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
+    private static void loadMemories2(final UserInput userInput, final Collection<File> files, final List<Memory> memories)
     {
         final ExecutorService pool = Executors.newFixedThreadPool(4);
 
@@ -100,7 +100,7 @@ public class RunnableMemoryLoader
             System.out.println("Loading memories..");
             for (final File file : files)
             {
-                final Runnable memoryCreate = new MemoryCreateMeta(userInputObj, file, memories);
+                final Runnable memoryCreate = new MemoryCreateMeta(userInput, file, memories);
                 pool.execute(memoryCreate);
             }
             try
@@ -116,7 +116,7 @@ public class RunnableMemoryLoader
         }
     }
 
-    private static void loadMemories(final UserInputObj userInputObj, final Collection<File> files, final List<Memory> memories)
+    private static void loadMemories(final UserInput userInput, final Collection<File> files, final List<Memory> memories)
     {
         final ExecutorService pool = Executors.newFixedThreadPool(4);
 
@@ -125,7 +125,7 @@ public class RunnableMemoryLoader
             System.out.println("Loading memories..");
             for (final File file : files)
             {
-                final Runnable memoryCreate = new MemoryCreate(userInputObj, file, memories);
+                final Runnable memoryCreate = new MemoryCreate(userInput, file, memories);
                 pool.execute(memoryCreate);
             }
             try
