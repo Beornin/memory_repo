@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 class MemoryCreate implements Runnable
@@ -96,7 +95,11 @@ class MemoryCreate implements Runnable
                     memory.setHeight(image.getHeight());
                     if (memory.getFile().exists())
                     {
-                        memory.setFirstBytes(Arrays.copyOfRange(Shared.returnPixelVal(memory.getFile()), 0, 3));
+                        final int[] rgb = new int[3];
+                        rgb[0] = image.getRGB(0, 0);
+                        rgb[1] = image.getRGB(image.getWidth() / 2, image.getHeight() / 2);
+                        rgb[2] = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
+                        memory.setFirstRgb(rgb);
                     }
                 } catch (final Exception ioe)
                 {
@@ -116,7 +119,7 @@ class MemoryCreate implements Runnable
                     } catch (final ImageProcessingException | IOException | NullPointerException ipe)
                     {
                         System.out.println("Error loading memory: " + file.getName());
-                        //ipe.printStackTrace();
+                        ipe.printStackTrace();
                     }
                 }
 

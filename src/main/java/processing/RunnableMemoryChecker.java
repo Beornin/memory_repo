@@ -27,7 +27,7 @@ public class RunnableMemoryChecker implements Runnable
             final ArrayList<Memory> matches = new ArrayList<>();
 
             //if we have to fully scan the pic, save it so we don't do it each time
-            byte[] tempByte = null;
+            int[] tempByte = null;
 
             //check that none of the new files match what we already have
             //this makes sure someone doesn't add a file that is already stored
@@ -69,40 +69,43 @@ public class RunnableMemoryChecker implements Runnable
 
             //check that none of the new files match what is coming in the single staged.
             //this makes sure someone doesn't add the same picture twice during import
-            for (final Memory stagedMemory : stagedMemories)
+            if (matches.isEmpty())
             {
-                if (stagedMemory.isMatched() || newMemory.equals(stagedMemory))
+                for (final Memory stagedMemory : stagedMemories)
                 {
-                    continue;
-                }
-
-                try
-                {
-                    if (DetermineMatch.isProbablePictureMatch(newMemory, stagedMemory))
+                    if (stagedMemory.isMatched() || newMemory.equals(stagedMemory))
                     {
-                        if (tempByte == null && newMemory.getMetadata() == null)
-                        {
-                            tempByte = Shared.returnPixelVal(newMemory.getFile());
-                        }
-
-                        if (newMemory.getMetadata() == null && stagedMemory.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, stagedMemory.getFile()))
-                        {
-                            DetermineMatch.setMatchedItems(matches, newMemory, stagedMemory);
-                        }
-                        if (newMemory.getMetadata() != null && stagedMemory.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(newMemory, stagedMemory))
-                        {
-                            DetermineMatch.setMatchedItems(matches, newMemory, stagedMemory);
-                        }
+                        continue;
                     }
 
-                    if (DetermineMatch.isPossibleVideoMatch(newMemory, stagedMemory) &&
-                            DetermineMatch.isDuplicateVideo(newMemory.getFile().toPath(), stagedMemory.getFile().toPath()))
+                    try
                     {
-                        DetermineMatch.setMatchedItems(matches, newMemory, stagedMemory);
+                        if (DetermineMatch.isProbablePictureMatch(newMemory, stagedMemory))
+                        {
+                            if (tempByte == null && newMemory.getMetadata() == null)
+                            {
+                                tempByte = Shared.returnPixelVal(newMemory.getFile());
+                            }
+
+                            if (newMemory.getMetadata() == null && stagedMemory.getMetadata() == null && DetermineMatch.isDuplicatePictureMatch(tempByte, stagedMemory.getFile()))
+                            {
+                                DetermineMatch.setMatchedItems(matches, stagedMemory, stagedMemory);
+                            }
+                            if (newMemory.getMetadata() != null && stagedMemory.getMetadata() != null && DetermineMatch.isDuplicatePictureMatchRAW(newMemory, stagedMemory))
+                            {
+                                DetermineMatch.setMatchedItems(matches, stagedMemory, stagedMemory);
+                            }
+                        }
+
+                        if (DetermineMatch.isPossibleVideoMatch(newMemory, stagedMemory) &&
+                                DetermineMatch.isDuplicateVideo(newMemory.getFile().toPath(), stagedMemory.getFile().toPath()))
+                        {
+                            DetermineMatch.setMatchedItems(matches, stagedMemory, stagedMemory);
+                        }
+                    } catch (final Exception e)
+                    {
+                        e.printStackTrace();
                     }
-                } catch (final Exception e)
-                {
-                    e.printStackTrace();
                 }
             }
 

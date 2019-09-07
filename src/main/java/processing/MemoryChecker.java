@@ -22,10 +22,11 @@ public class MemoryChecker
             final ArrayList<Memory> matches = new ArrayList<>();
             int counter = 0;
             //if we have to fully scan the pic, save it so we don't do it each time
-            byte[] tempByte = null;
+            int[] tempByte;
             Memory innerMemory;
             for (final Memory checkMemory : currentMemories)
             {
+                tempByte = null;
                 counter++;
 
                 if (checkMemory.isMatched())
@@ -33,7 +34,7 @@ public class MemoryChecker
                     continue;
                 }
                 matches.clear();
-                for (int iCount = counter + 1; iCount < currentMemories.size(); iCount++)
+                for (int iCount = counter; iCount < currentMemories.size(); iCount++)
                 {
                     innerMemory = currentMemories.get(iCount);
 
@@ -44,11 +45,6 @@ public class MemoryChecker
                     }
                     try
                     {
-                        if (tempByte == null && checkMemory.getMetadata() == null)
-                        {
-                            tempByte = Shared.returnPixelVal(checkMemory.getFile());
-                        }
-
                         if (DetermineMatch.isProbablePictureMatch(checkMemory, innerMemory))
                         {
                             if (tempByte == null && checkMemory.getMetadata() == null)

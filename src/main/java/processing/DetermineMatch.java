@@ -34,7 +34,7 @@ class DetermineMatch
                 test1.getWidth() == test2.getWidth() &&
                 test1.getHeight() == test2.getHeight() &&
                 test1.getSize() == test2.getSize() &&
-                Arrays.equals(test1.getFirstBytes(), test2.getFirstBytes()) || isProbablePictureMatchRAW(test1, test2);
+                Arrays.equals(test1.getFirstRgb(), test2.getFirstRgb()) || isProbablePictureMatchRAW(test1, test2);
     }
 
     /**
@@ -63,7 +63,7 @@ class DetermineMatch
      * @param test2    Second Memory
      * @return true if duplicate
      */
-    public static boolean isDuplicatePictureMatch(final byte[] tempByte, final File test2)
+    public static boolean isDuplicatePictureMatch(final int[] tempByte, final File test2)
     {
         return tempByte != null && Arrays.equals(tempByte, Shared.returnPixelVal(test2));
     }

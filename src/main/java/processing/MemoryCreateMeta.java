@@ -114,7 +114,7 @@ class MemoryCreateMeta implements Runnable
                         memory.setHeight(image.getHeight());
                         if (memory.getFile().exists())
                         {
-                            memory.setFirstBytes(Arrays.copyOfRange(Shared.returnPixelVal(memory.getFile()), 0, 3));
+                            memory.setFirstRgb(Arrays.copyOfRange(Shared.returnPixelVal(memory.getFile()), 0, 3));
                         }
                     } catch (final IOException | NullPointerException ipe)
                     {
