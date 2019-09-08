@@ -22,9 +22,6 @@ class Import
         final long startTime = System.nanoTime();
         List<Memory> currentMemories = new ArrayList<>(0);
 
-        //move all files from GDrive to staging folder
-        Mover.moveToStaging();
-
         //Then gather up the staged files
         final UserInput importUio = new UserInput();
         importUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Stage"));
