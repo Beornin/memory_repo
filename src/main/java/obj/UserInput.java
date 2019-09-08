@@ -7,8 +7,8 @@ import java.util.List;
 
 public class UserInput
 {
+    private final MetaData metaData = new MetaData();
     private boolean imported;
-    private MetaData metaData = new MetaData();
     private File startingFolder = new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos");
 
     public boolean isImported()

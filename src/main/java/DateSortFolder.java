@@ -1,7 +1,7 @@
 import obj.Memory;
 import obj.UserInput;
-import processing.RunnableMemoryLoader;
 import processing.Shared;
+import processing.load.RunnableMemoryLoader;
 
 import java.io.File;
 import java.io.IOException;

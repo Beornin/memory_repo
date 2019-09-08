@@ -1,9 +1,9 @@
 import io.CacheMemories;
 import obj.Memory;
 import obj.UserInput;
-import processing.MemoryChecker;
-import processing.RunnableMemoryLoader;
 import processing.Shared;
+import processing.check.MemoryChecker;
+import processing.load.RunnableMemoryLoader;
 
 import java.io.File;
 import java.util.List;

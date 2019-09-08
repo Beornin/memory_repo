@@ -15,67 +15,11 @@ import java.util.stream.Collectors;
  * total # of files in repo
  * file types in repo with # counter with % from total
  */
-public class MetaData
+class MetaData
 {
     private String totalRepoSize;
     private int memoriesInRepo;
     private Map<String, Long> fileExtCountMap;
-
-    void populate(final List<Memory> memories)
-    {
-        setFileExtCountMap(memories);
-        setMemoriesInRepo(memories.size());
-    }
-
-    private String getTotalRepoSize()
-    {
-        return totalRepoSize;
-    }
-
-    private int getMemoriesInRepo()
-    {
-        return memoriesInRepo;
-    }
-
-    private void setMemoriesInRepo(final int memoriesInRepo)
-    {
-        this.memoriesInRepo = memoriesInRepo;
-    }
-
-    void setTotalRepoSize(final long totalRepoSize)
-    {
-        this.totalRepoSize = formatFileSize(totalRepoSize);
-    }
-
-    private void setFileExtCountMap(final List<Memory> memories)
-    {
-        if (memories != null && memories.size() > 0)
-        {
-            this.fileExtCountMap = memories.stream().map(f -> f.getName().toUpperCase()).map(n ->
-                    n.substring(n.lastIndexOf(".") + 1)).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        }
-    }
-
-    void printMetaData()
-    {
-        System.out.println("************************");
-        System.out.println("***REPO META DATA***");
-        System.out.println("Total Repo Size: " + getTotalRepoSize());
-        System.out.println("Total Repo Memories: " + getMemoriesInRepo());
-
-        System.out.println("***File Type - Count - Percent of Repo***");
-        final Iterator it = fileExtCountMap.entrySet().iterator();
-        BigDecimal bd;
-        while (it.hasNext())
-        {
-            final Map.Entry pair = (Map.Entry) it.next();
-            bd = new BigDecimal(Double.toString((((long) pair.getValue() / (double) getMemoriesInRepo()) * 100)));
-            bd = bd.setScale(2, RoundingMode.HALF_UP);
-            System.out.println(pair.getKey() + " - " + pair.getValue() + " - " + bd.toPlainString() + "%");
-            it.remove();
-        }
-        System.out.println("************************");
-    }
 
     private static String formatFileSize(final long size)
     {
@@ -109,5 +53,61 @@ public class MetaData
         }
 
         return hrSize;
+    }
+
+    void populate(final List<Memory> memories)
+    {
+        setFileExtCountMap(memories);
+        setMemoriesInRepo(memories.size());
+    }
+
+    private String getTotalRepoSize()
+    {
+        return totalRepoSize;
+    }
+
+    void setTotalRepoSize(final long totalRepoSize)
+    {
+        this.totalRepoSize = formatFileSize(totalRepoSize);
+    }
+
+    private int getMemoriesInRepo()
+    {
+        return memoriesInRepo;
+    }
+
+    private void setMemoriesInRepo(final int memoriesInRepo)
+    {
+        this.memoriesInRepo = memoriesInRepo;
+    }
+
+    private void setFileExtCountMap(final List<Memory> memories)
+    {
+        if (memories != null && memories.size() > 0)
+        {
+            this.fileExtCountMap = memories.stream().map(f -> f.getName().toUpperCase()).map(n ->
+                    n.substring(n.lastIndexOf(".") + 1)).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        }
+    }
+
+    void printMetaData()
+    {
+        System.out.println("************************");
+        System.out.println("***REPO META DATA***");
+        System.out.println("Total Repo Size: " + getTotalRepoSize());
+        System.out.println("Total Repo Memories: " + getMemoriesInRepo());
+
+        System.out.println("***File Type - Count - Percent of Repo***");
+        final Iterator it = fileExtCountMap.entrySet().iterator();
+        BigDecimal bd;
+        while (it.hasNext())
+        {
+            final Map.Entry pair = (Map.Entry) it.next();
+            bd = new BigDecimal(Double.toString((((long) pair.getValue() / (double) getMemoriesInRepo()) * 100)));
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
+            System.out.println(pair.getKey() + " - " + pair.getValue() + " - " + bd.toPlainString() + "%");
+            it.remove();
+        }
+        System.out.println("************************");
     }
 }

@@ -1,9 +1,10 @@
-package processing;
+package processing.load;
 
 import io.CacheMemories;
 import obj.Memory;
 import obj.UserInput;
 import org.apache.commons.io.FileUtils;
+import processing.Shared;
 
 import java.io.File;
 import java.util.ArrayList;
