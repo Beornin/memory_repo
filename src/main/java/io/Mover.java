@@ -15,43 +15,6 @@ public class Mover
     private final static String STAGE_DIR = "Z:" + File.separator + "Imports" + File.separator + "Stage" + File.separator;
     private final static String PASSED_DIR = "Z:" + File.separator + "Imports" + File.separator + "Pass" + File.separator;
     private final static String FLAGGED_DIR = "Z:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator;
-    private final static String IMPORT_DIR = "C:" + File.separator + "Users" + File.separator + "Ben" + File.separator + "Google Drive" + File.separator + "Thomas Transfer";
-
-    /**
-     * This method moves files from an imported dir to the staging folder
-     */
-    public static void moveToStaging()
-    {
-        final File[] fList = new File(IMPORT_DIR).listFiles();
-        if (fList != null)
-        {
-            for (final File currentFile : fList)
-            {
-                try
-                {
-                    Files.move(currentFile.toPath(), Paths.get(STAGE_DIR + currentFile.getName()));
-                    if (!new File(STAGE_DIR + currentFile.getName()).exists())
-                    {
-                        if (Files.deleteIfExists(currentFile.toPath()))
-                        {
-                            System.out.println("File not deleted from GDrive! :" + currentFile.getName());
-                        }
-                        else
-                        {
-                            System.out.println("File WAS deleted from GDrive! :" + currentFile.getName());
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("File not moved to staging! :" + currentFile.getName());
-                    }
-                } catch (final IOException ioe)
-                {
-                    ioe.printStackTrace();
-                }
-            }
-        }
-    }
 
     /**
      * This moves the memory passed in to the passed folder

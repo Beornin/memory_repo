@@ -8,6 +8,16 @@ import java.util.concurrent.TimeUnit;
 
 public class Shared
 {
+    public static final String[] PICTURE_EXTENSIONS = new String[]{
+            "gif", "png", "bmp", "jpg", "jpeg", "heic"
+    };
+    public static final String[] PICTURE_RAW_EXTENSIONS = new String[]{
+            "raw", "cr2", "tiff", "tif"
+    };
+    public static final String[] VIDEO_EXTENSIONS = new String[]{
+            "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv"
+    };
+
     /**
      * This method returns the bytes of the picture
      *

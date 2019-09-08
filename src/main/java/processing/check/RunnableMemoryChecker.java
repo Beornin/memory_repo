@@ -1,7 +1,8 @@
-package processing;
+package processing.check;
 
 import io.Reporter;
 import obj.Memory;
+import processing.Shared;
 
 import java.util.ArrayList;
 import java.util.List;

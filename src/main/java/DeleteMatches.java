@@ -26,7 +26,7 @@ class DeleteMatches
             while ((line = br.readLine()) != null)
             {
                 line = line.trim();
-                if (StringUtils.isNotEmpty(line) && !StringUtils.startsWith(line,"xxx") && !StringUtils.equals("*******************************************************************************", line))
+                if (StringUtils.isNotEmpty(line) && !StringUtils.startsWith(line, "xxx") && !StringUtils.equals("*******************************************************************************", line))
                 {
                     final File file = new File(line);
                     files.add(file);

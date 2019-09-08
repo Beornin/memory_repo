@@ -49,7 +49,7 @@ public class CacheMemories
                     System.out.println("Writing Memories to cache at: " + CACHE_NAME);
                     final FileOutputStream fos = new FileOutputStream(CACHE_NAME);
                     final ObjectOutputStream oos = new ObjectOutputStream(fos);
-                    for(final Memory memory : currentMemories)
+                    for (final Memory memory : currentMemories)
                     {
                         memory.setMatched(false);
                     }
@@ -63,7 +63,7 @@ public class CacheMemories
                 System.out.println("Writing Memories to cache at: " + CACHE_NAME);
                 final FileOutputStream fos = new FileOutputStream(CACHE_NAME);
                 final ObjectOutputStream oos = new ObjectOutputStream(fos);
-                for(final Memory memory : currentMemories)
+                for (final Memory memory : currentMemories)
                 {
                     memory.setMatched(false);
                 }

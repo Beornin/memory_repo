@@ -1,9 +1,10 @@
-package processing;
+package processing.check;
 
 import com.drew.metadata.Directory;
 import com.drew.metadata.Tag;
 import obj.Memory;
 import org.apache.commons.lang3.StringUtils;
+import processing.Shared;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ class DetermineMatch
      * @param test2 Second Memory
      * @return true if probable match
      */
-    public static boolean isProbablePictureMatch(final Memory test1, final Memory test2)
+    static boolean isProbablePictureMatch(final Memory test1, final Memory test2)
     {
         return !test1.isMatched() && !test2.isMatched() && !test1.equals(test2) &&
                 test1.isPicture() && test2.isPicture() &&
@@ -63,7 +64,7 @@ class DetermineMatch
      * @param test2    Second Memory
      * @return true if duplicate
      */
-    public static boolean isDuplicatePictureMatch(final int[] tempByte, final File test2)
+    static boolean isDuplicatePictureMatch(final int[] tempByte, final File test2)
     {
         return tempByte != null && Arrays.equals(tempByte, Shared.returnPixelVal(test2));
     }
@@ -75,7 +76,7 @@ class DetermineMatch
      * @param test2 Second Memory
      * @return true if a match
      */
-    public static boolean isDuplicatePictureMatchRAW(final Memory test1, final Memory test2)
+    static boolean isDuplicatePictureMatchRAW(final Memory test1, final Memory test2)
     {
         boolean same = true;
 
@@ -129,7 +130,7 @@ class DetermineMatch
      * @param test2 Second Memory
      * @return true if probable match
      */
-    public static boolean isPossibleVideoMatch(final Memory test1, final Memory test2)
+    static boolean isPossibleVideoMatch(final Memory test1, final Memory test2)
     {
         return !test1.isMatched() && !test2.isMatched() &&
                 test1.isVideo() && test2.isVideo() && test1 != test2 && test1.getSize() == test2.getSize();
@@ -143,7 +144,7 @@ class DetermineMatch
      * @return true if a match
      * @throws IOException thrown if error occurs
      */
-    public static boolean isDuplicateVideo(final Path memoryOne, final Path memoryTwo) throws IOException
+    static boolean isDuplicateVideo(final Path memoryOne, final Path memoryTwo) throws IOException
     {
         final long size = Files.size(memoryOne) / 20;
         final int mapspan = 4 * 1024 * 1024;
@@ -196,7 +197,7 @@ class DetermineMatch
      * @param staged  The memory from Stage folder
      * @param current The current memory
      */
-    public static void setMatchedItems(final ArrayList<Memory> matches, final Memory staged, final Memory current)
+    static void setMatchedItems(final ArrayList<Memory> matches, final Memory staged, final Memory current)
     {
         if (!matches.contains(staged))
         {

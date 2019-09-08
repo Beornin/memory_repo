@@ -1,7 +1,7 @@
 import obj.Memory;
 import obj.UserInput;
-import processing.RunnableMemoryLoader;
 import processing.Shared;
+import processing.load.RunnableMemoryLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +28,7 @@ class DateSortFolder
         userInput.setImported(false);
         userInput.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos" + File.separator + "Tucker"));
         System.out.println("Getting current memories...");
-        currentMemories = RunnableMemoryLoader.loadFolderMemories(userInput);
+        currentMemories = RunnableMemoryLoader.loadDateSortMemories(userInput);
 
         String date;
         BasicFileAttributes attr;

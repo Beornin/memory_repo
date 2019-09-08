@@ -1,4 +1,4 @@
-package processing;
+package processing.load;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
@@ -6,6 +6,7 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.file.FileSystemDirectory;
 import obj.Memory;
 import obj.UserInput;
+import processing.Shared;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,17 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+
 class MemoryCreateMeta implements Runnable
 {
-    private static final String[] PICTURE_EXTENSIONS = new String[]{
-            "gif", "png", "bmp", "jpg", "jpeg", "heic"
-    };
-    private static final String[] PICTURE_RAW_EXTENSIONS = new String[]{
-            "raw", "cr2", "tiff", "tif"
-    };
-    private static final String[] VIDEO_EXTENSIONS = new String[]{
-            "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv"
-    };
+
     private final String pattern = "yyyy-MM-dd";
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private final File file;
@@ -41,7 +35,7 @@ class MemoryCreateMeta implements Runnable
 
     private static boolean isVideo(final File file)
     {
-        for (final String x : VIDEO_EXTENSIONS)
+        for (final String x : Shared.VIDEO_EXTENSIONS)
         {
             if (file.getName().toLowerCase().endsWith(x))
             {
@@ -53,7 +47,7 @@ class MemoryCreateMeta implements Runnable
 
     private static boolean isPicture(final File file)
     {
-        for (final String x : PICTURE_EXTENSIONS)
+        for (final String x : Shared.PICTURE_EXTENSIONS)
         {
             if (file.getName().toLowerCase().endsWith(x))
             {
@@ -65,7 +59,7 @@ class MemoryCreateMeta implements Runnable
 
     private static boolean isRaw(final File file)
     {
-        for (final String x : PICTURE_RAW_EXTENSIONS)
+        for (final String x : Shared.PICTURE_RAW_EXTENSIONS)
         {
             if (file.getName().toLowerCase().endsWith(x))
             {
