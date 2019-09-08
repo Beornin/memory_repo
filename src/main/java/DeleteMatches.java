@@ -7,8 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
-public class DeleteMatches
+class DeleteMatches
 {
 
     public static void main(final String[] args)

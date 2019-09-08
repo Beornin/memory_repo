@@ -1,6 +1,6 @@
 import io.CacheMemories;
 import obj.Memory;
-import obj.UserInputObj;
+import obj.UserInput;
 import processing.MemoryChecker;
 import processing.RunnableMemoryLoader;
 import processing.Shared;
@@ -18,11 +18,11 @@ class RepoCheck
         final long startTime = System.nanoTime();
 
         //Get all the current files on repo
-        final UserInputObj userInputObj = new UserInputObj();
-        userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
+        final UserInput userInput = new UserInput();
+        userInput.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
 
         System.out.println("Getting current memories...");
-        final List<Memory> currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInputObj, true);
+        final List<Memory> currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInput, true);
 
         System.out.println("Checking current memories...");
         MemoryChecker.checkForDuplicateMemories(currentMemories);
@@ -32,5 +32,6 @@ class RepoCheck
         final long endTime = System.nanoTime();
         final long totalTime = endTime - startTime;
         System.out.println("Total  process time  for  " + currentMemories.size() + " memories took: " + Shared.printTotalTimeTaken(totalTime));
+        userInput.printMetaData();
     }
 }

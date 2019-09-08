@@ -2,13 +2,11 @@ package processing;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
-import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import obj.Memory;
-import obj.UserInputObj;
+import obj.UserInput;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,9 +27,9 @@ class MemoryCreate implements Runnable
     };
     private final File file;
     private final List<Memory> memories;
-    private final UserInputObj userIo;
+    private final UserInput userIo;
 
-    MemoryCreate(final UserInputObj uio, final File fileIn, final List<Memory> memoriesIn)
+    MemoryCreate(final UserInput uio, final File fileIn, final List<Memory> memoriesIn)
     {
         userIo = uio;
         file = fileIn;
@@ -72,39 +70,6 @@ class MemoryCreate implements Runnable
             }
         }
         return false;
-    }
-
-    /**
-     * Write all extracted values to stdout.
-     */
-    private static void print(final Metadata metadata, final String method)
-    {
-        System.out.println();
-        System.out.println("-------------------------------------------------");
-        System.out.print(' ');
-        System.out.print(method);
-        System.out.println("-------------------------------------------------");
-        System.out.println();
-        //
-        // A Metadata object contains multiple Directory objects
-        //
-        for (final Directory directory : metadata.getDirectories())
-        {
-            //
-            // Each Directory stores values in Tag objects
-            //
-            for (final Tag tag : directory.getTags())
-            {
-                System.out.println(tag);
-            }
-            //
-            // Each Directory may also contain error messages
-            //
-            for (final String error : directory.getErrors())
-            {
-                System.err.println("ERROR: " + error);
-            }
-        }
     }
 
     public void run()

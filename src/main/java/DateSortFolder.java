@@ -1,5 +1,5 @@
 import obj.Memory;
-import obj.UserInputObj;
+import obj.UserInput;
 import processing.RunnableMemoryLoader;
 import processing.Shared;
 
@@ -24,11 +24,11 @@ class DateSortFolder
         final long startTime = System.nanoTime();
         final List<Memory> currentMemories;
 
-        final UserInputObj userInputObj = new UserInputObj();
-        userInputObj.setImported(false);
-        userInputObj.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos" + File.separator + "Tucker"));
+        final UserInput userInput = new UserInput();
+        userInput.setImported(false);
+        userInput.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos" + File.separator + "Tucker"));
         System.out.println("Getting current memories...");
-        currentMemories = RunnableMemoryLoader.loadFolderMemories(userInputObj);
+        currentMemories = RunnableMemoryLoader.loadFolderMemories(userInput);
 
         String date;
         BasicFileAttributes attr;
