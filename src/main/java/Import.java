@@ -30,7 +30,7 @@ class Import
         importUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Stage"));
         importUio.setImported(true);
         System.out.println("Getting STAGE memories...");
-        final List<Memory> stagedMemories = RunnableMemoryLoader.gatherNewFiles(importUio);
+        final List<Memory> stagedMemories = RunnableMemoryLoader.gatherMemories(importUio);
 
         //If we have any staged files
         if (!stagedMemories.isEmpty())
@@ -40,14 +40,14 @@ class Import
             userInput.setImported(false);
             userInput.setStartingFolder(new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos"));
             System.out.println("Getting current memories...");
-            currentMemories = RunnableMemoryLoader.gatherCurrentFiles(userInput, true);
+            currentMemories = RunnableMemoryLoader.gatherCurrentRepoMemories(userInput);
 
             //Gather up all in Pass that have not been added to repo yet
             final UserInput passedUio = new UserInput();
             passedUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Pass"));
             passedUio.setImported(false);
             System.out.println("Getting previous passed memories...");
-            final List<Memory> passedMemories = RunnableMemoryLoader.gatherCurrentFiles(passedUio, false);
+            final List<Memory> passedMemories = RunnableMemoryLoader.gatherMemories(passedUio);
             //add in to are shared ones since these previously passed validations
             currentMemories.addAll(passedMemories);
 
