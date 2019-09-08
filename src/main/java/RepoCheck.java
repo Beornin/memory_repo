@@ -32,5 +32,6 @@ class RepoCheck
         final long endTime = System.nanoTime();
         final long totalTime = endTime - startTime;
         System.out.println("Total  process time  for  " + currentMemories.size() + " memories took: " + Shared.printTotalTimeTaken(totalTime));
+        userInput.printMetaData();
     }
 }

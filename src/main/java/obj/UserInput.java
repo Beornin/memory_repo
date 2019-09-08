@@ -1,10 +1,14 @@
 package obj;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.util.List;
 
 public class UserInput
 {
     private boolean imported;
+    private MetaData metaData = new MetaData();
     private File startingFolder = new File("Y:" + File.separator + "SharedFolder" + File.separator + "Pictures and Videos");
 
     public boolean isImported()
@@ -24,6 +28,17 @@ public class UserInput
 
     public void setStartingFolder(final File startingFolder)
     {
+        this.metaData.setTotalRepoSize(FileUtils.sizeOfDirectoryAsBigInteger(startingFolder).longValue());
         this.startingFolder = startingFolder;
+    }
+
+    public void populateRepoMetaData(final List<Memory> memories)
+    {
+        this.metaData.populate(memories);
+    }
+
+    public void printMetaData()
+    {
+        this.metaData.printMetaData();
     }
 }

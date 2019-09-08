@@ -54,7 +54,7 @@ public class RunnableMemoryLoader
 
         //this would load any remaining files from CacheMemories into memories
         loadMemories2(userInput, files, memories);
-
+        userInput.populateRepoMetaData(memories);
         files.clear();
 
         return memories;
@@ -63,6 +63,7 @@ public class RunnableMemoryLoader
     private static List<Memory> loadCurrentMemories(final UserInput userInput, final boolean cache)
     {
         final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), ALL_EXTENSIONS, true);
+
         final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
 
         //if the cache file exists, process it,. This can trim down the files collection and
@@ -73,7 +74,7 @@ public class RunnableMemoryLoader
 
         //this would load any remaining files from CacheMemories into memories
         loadMemories(userInput, files, memories);
-
+        userInput.populateRepoMetaData(memories);
         files.clear();
 
         return memories;

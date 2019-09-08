@@ -82,6 +82,7 @@ class Import
             }
 
             CacheMemories.cacheCurrentMemories(currentMemories);
+            userInput.printMetaData();
         }
 
         final long endTime = System.nanoTime();
