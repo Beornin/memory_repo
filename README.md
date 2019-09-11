@@ -1,5 +1,5 @@
-# memory_sorter
-memory_sorter is a program developed to make it easier to setup and manage photo and videos (memories) in a single repository
+# memory_repo
+memory_repo is a program developed to make it easier to setup and manage photo and videos (memories) in a single repository
 
 ## Motivation
 Being the tech person of the family, I took it upon myself to consolidate all the memories into one repository and make
