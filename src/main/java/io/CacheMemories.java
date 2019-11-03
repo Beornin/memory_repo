@@ -8,12 +8,7 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import obj.Memory;
 import obj.UserInput;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,8 +52,7 @@ public class CacheMemories
                     oos.close();
                     System.out.println("Done writing to cache...");
                 }
-            }
-            else
+            } else
             {
                 System.out.println("Writing Memories to cache at: " + CACHE_NAME);
                 final FileOutputStream fos = new FileOutputStream(CACHE_NAME);
@@ -89,6 +83,7 @@ public class CacheMemories
             final ObjectInputStream ois = new ObjectInputStream(fis);
             memories.addAll((List<Memory>) ois.readObject());
             ois.close();
+            System.out.println("Memories loaded from cache: " + memories.size());
 
             //remove any memories from the cache that the file no longer exists
             for (final Memory memory : memories)
@@ -124,18 +119,18 @@ public class CacheMemories
 
                         } catch (final ImageProcessingException | IOException | NullPointerException ipe)
                         {
-                            System.out.println("Error loading memory: " + memory.getFile().getName());
+                            System.out.println("Error loading memory during cache read Metadata: " + memory.getFile().getName());
                             ipe.printStackTrace();
                         }
                     }
-                }
-                else
+                } else
                 {
                     //file no longer exists, remove the memory
                     memoriesToDelete.add(memory);
                 }
             }
             memories.removeAll(memoriesToDelete);
+            System.out.println("Memories skipped from cache loading: " + filesToDelete.size());
             files.removeAll(filesToDelete);
 
             System.out.println("Finished reading cached Memories...");

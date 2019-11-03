@@ -1,5 +1,12 @@
 package processing.load;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
+import com.drew.metadata.exif.ExifThumbnailDirectory;
+import com.drew.metadata.file.FileSystemDirectory;
 import obj.Memory;
 import obj.UserInput;
 import processing.Shared;
@@ -7,10 +14,13 @@ import processing.Shared;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 class MemoryCreate implements Runnable
 {
+    private final String pattern = "yyyy-MM-dd";
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private final File file;
     private final List<Memory> memories;
     private final UserInput userIo;
@@ -89,8 +99,42 @@ class MemoryCreate implements Runnable
                     }
                 } catch (final Exception ioe)
                 {
-                    System.out.println("Error loading memory: " + file.getPath());
-                    ioe.printStackTrace();
+                    System.out.println("Error loading memory create for : " + file.getPath() + " attempting metadata...");
+                    //ioe.printStackTrace();
+                    try
+                    {
+                        final Metadata metadata = ImageMetadataReader.readMetadata(file);
+                        memory.setMetadata(metadata);
+                        memory.setMetaDataLoaded(true);
+                        /*for (Directory directory : metadata.getDirectories())
+                        {
+                            for (Tag tag : directory.getTags())
+                            {
+                                System.out.format("[%s] - %s = %s",
+                                        directory.getName(), tag.getTagName(), tag.getDescription());
+                            }
+                            if (directory.hasErrors())
+                            {
+                                for (String error : directory.getErrors())
+                                {
+                                    System.err.format("ERROR: %s", error);
+                                }
+                            }
+                        }*/
+                        try
+                        {
+                            final ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+                            memory.setDate(simpleDateFormat.format(exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)) + "-ORI");
+                            memory.setMetaDataLoaded(true);
+                        } catch (final NullPointerException npe)
+                        {
+                            final FileSystemDirectory fileSystemDirectory = metadata.getFirstDirectoryOfType(FileSystemDirectory.class);
+                            memory.setDate(simpleDateFormat.format(fileSystemDirectory.getDate(FileSystemDirectory.TAG_FILE_MODIFIED_DATE)) + "-MOD");
+                        }
+                    } catch (final Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
                 }
 
                 this.memories.add(memory);
@@ -98,8 +142,7 @@ class MemoryCreate implements Runnable
                 {
                     System.out.println("Current memories loaded: " + this.memories.size());
                 }
-            }
-            else if (isVideo(file))
+            } else if (isVideo(file))
             {
                 memory = new Memory();
                 memory.setName(file.getName());
@@ -114,8 +157,7 @@ class MemoryCreate implements Runnable
                 {
                     System.out.println("Current memories loaded: " + this.memories.size());
                 }
-            }
-            else
+            } else
             {
                 System.out.println("Not a memory type: " + file.getPath());
             }

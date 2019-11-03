@@ -126,7 +126,7 @@ public class RunnableMemoryLoader
      */
     private static void loadDateSortMemories(final UserInput userInput, final Collection<File> files, final List<Memory> memories)
     {
-        final ExecutorService pool = Executors.newFixedThreadPool(4);
+        final ExecutorService pool = Executors.newFixedThreadPool(2);
 
         if (!files.isEmpty())
         {
@@ -157,7 +157,7 @@ public class RunnableMemoryLoader
      */
     private static void loadMemories(final UserInput userInput, final Collection<File> files, final List<Memory> memories)
     {
-        final ExecutorService pool = Executors.newFixedThreadPool(4);
+        final ExecutorService pool = Executors.newFixedThreadPool(2);
 
         if (!files.isEmpty())
         {

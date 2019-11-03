@@ -24,7 +24,7 @@ class Import
 
         //Then gather up the staged files
         final UserInput importUio = new UserInput();
-        importUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Stage"));
+        importUio.setStartingFolder(new File("E:" + File.separator + "Imports" + File.separator + "Stage"));
         importUio.setImported(true);
         System.out.println("Getting STAGE memories...");
         final List<Memory> stagedMemories = RunnableMemoryLoader.gatherMemories(importUio);
@@ -41,14 +41,14 @@ class Import
 
             //Gather up all in Pass that have not been added to repo yet
             final UserInput passedUio = new UserInput();
-            passedUio.setStartingFolder(new File("Z:" + File.separator + "Imports" + File.separator + "Pass"));
+            passedUio.setStartingFolder(new File("E:" + File.separator + "Imports" + File.separator + "Pass"));
             passedUio.setImported(false);
             System.out.println("Getting previous passed memories...");
             final List<Memory> passedMemories = RunnableMemoryLoader.gatherMemories(passedUio);
             //add in to are shared ones since these previously passed validations
             currentMemories.addAll(passedMemories);
 
-            final ExecutorService pool = Executors.newFixedThreadPool(4);
+            final ExecutorService pool = Executors.newFixedThreadPool(2);
             for (final Memory stageMemory : stagedMemories)
             {
                 final Runnable runnableMemoryChecker = new RunnableMemoryChecker(stageMemory, stagedMemories, currentMemories);

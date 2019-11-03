@@ -19,7 +19,6 @@ import java.util.List;
 
 class MemoryCreateMeta implements Runnable
 {
-
     private final String pattern = "yyyy-MM-dd";
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private final File file;

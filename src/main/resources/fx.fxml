@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <AnchorPane fx:id="anchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ChoiceBox fx:id="runDropdown" layoutX="150.0" layoutY="48.0" prefHeight="25.0" prefWidth="340.0" />
+            <Button fx:id="runButton" layoutX="509.0" layoutY="48.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Run" />
+            <TextField fx:id="repoPath" layoutX="22.0" layoutY="128.0" prefHeight="25.0" prefWidth="587.0" />
+            <TextField fx:id="importStage" layoutX="22.0" layoutY="194.0" prefHeight="25.0" prefWidth="587.0" />
+            <TextField fx:id="importPass" layoutX="22.0" layoutY="258.0" prefHeight="25.0" prefWidth="587.0" />
+            <TextField fx:id="importFail" layoutX="22.0" layoutY="321.0" prefHeight="25.0" prefWidth="587.0" />
+            <ProgressBar fx:id="progressBar" layoutX="22.0" layoutY="361.0" prefHeight="18.0" prefWidth="587.0" progress="0.0" />
+            <Label fx:id="repoPathLabel" layoutX="22.0" layoutY="105.0" text="Repo Path" />
+            <Label fx:id="importStageLabel" layoutX="22.0" layoutY="169.0" text="Import Stage" />
+            <Label fx:id="importPassLabel" layoutX="22.0" layoutY="232.0" text="Import Pass" />
+            <Label fx:id="importFailLabel" layoutX="22.0" layoutY="298.0" text="Import Fail" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
