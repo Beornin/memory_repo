@@ -21,7 +21,9 @@ public class memory_repo_gui extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("/fx.fxml"));
         primaryStage.setTitle("memory_repo");
-        primaryStage.setScene(new Scene(root, 800, 500));
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(root, 640, 400));
         primaryStage.show();
+        Controller.populateRunOptions();
     }
 }
