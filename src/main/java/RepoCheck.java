@@ -25,7 +25,7 @@ class RepoCheck
         final List<Memory> currentMemories = RunnableMemoryLoader.gatherCurrentRepoMemories(userInput);
 
         System.out.println("Checking current memories...");
-        MemoryChecker.checkForDuplicateMemories(currentMemories);
+        MemoryChecker.checkForDuplicateMemories(currentMemories, true);
 
         CacheMemories.cacheCurrentMemories(currentMemories);
 

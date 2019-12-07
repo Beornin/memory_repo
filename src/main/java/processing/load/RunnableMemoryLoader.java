@@ -105,7 +105,7 @@ public class RunnableMemoryLoader
      * @param userInput Input
      * @return List of processed memories
      */
-    private static List<Memory> loadMemories(final UserInput userInput)
+    public static List<Memory> loadMemories(final UserInput userInput)
     {
         final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), ALL_EXTENSIONS, true);
         final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
@@ -152,10 +152,10 @@ public class RunnableMemoryLoader
     /**
      * The method that handles the thread pool runner to load memories
      * @param userInput Input
-     * @param files
-     * @param memories
+     * @param files The files to load into memories
+     * @param memories The array list of memories to fill up
      */
-    private static void loadMemories(final UserInput userInput, final Collection<File> files, final List<Memory> memories)
+    public static void loadMemories(final UserInput userInput, final Collection<File> files, final List<Memory> memories)
     {
         final ExecutorService pool = Executors.newFixedThreadPool(4);
 

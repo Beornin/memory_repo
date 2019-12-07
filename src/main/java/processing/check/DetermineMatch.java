@@ -53,8 +53,7 @@ class DetermineMatch
                 test1.getHeight() == test2.getHeight() &&
                 test1.getMetadata() != null &&
                 test2.getMetadata() != null &&
-                test1.getSize() == test2.getSize() &&
-                test1.getDate().equals(test2.getDate());
+                test1.getSize() == test2.getSize();
     }
 
     /**
