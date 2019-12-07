@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MemoryChecker
 {
-    public static void checkForDuplicateMemories(final List<Memory> currentMemories)
+    public static void checkForDuplicateMemories(final List<Memory> currentMemories, final boolean outputReport)
     {
         try
         {
@@ -86,7 +86,7 @@ public class MemoryChecker
                         e.printStackTrace();
                     }
                 }
-                if (!matches.isEmpty())
+                if (outputReport && !matches.isEmpty())
                 {
                     Reporter.reportDuplicates(matches);
                 }
