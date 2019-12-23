@@ -34,9 +34,9 @@ There is a cache.beo file placed in the repository which really helps in the loa
 this cache present, it can take hours to load all the memories the first time depending on size of repo. Once a cache is created,
 the process takes minutes to load memories from the cache!
 
-Example of no cache - Repo Check output:
- took: 02(h)23(m)16(s)0309(ms) to get 80002 files
-Total  check  for  80002 memories took: 53(m)24(s)0703(ms)
+Example of no cache - Repo Check output:\n
+ took: 02(h)23(m)16(s)0309(ms) to get 80002 files\n
+Total  check  for  80002 memories took: 53(m)24(s)0703(ms)\n
 Total  process time  for  80002 memories took: 03(h)16(m)58(s)0000(ms)
 ************************
 ***REPO META DATA***
