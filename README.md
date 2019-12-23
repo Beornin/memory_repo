@@ -34,26 +34,26 @@ There is a cache.beo file placed in the repository which really helps in the loa
 this cache present, it can take hours to load all the memories the first time depending on size of repo. Once a cache is created,
 the process takes minutes to load memories from the cache!
 
-Example of no cache - Repo Check output:\n
- took: 02(h)23(m)16(s)0309(ms) to get 80002 files\n
-Total  check  for  80002 memories took: 53(m)24(s)0703(ms)\n
-Total  process time  for  80002 memories took: 03(h)16(m)58(s)0000(ms)
-************************
-***REPO META DATA***
-Total Repo Size: 2.21 TB
-Total Repo Memories: 80002
-***File Type - Count - Percent of Repo***
-TIF - 11641 - 14.55%
-MP4 - 1264 - 1.58%
-JPG - 31335 - 39.17%
-WMV - 4 - 0.00%
-CR2 - 32619 - 40.77%
-AVI - 17 - 0.02%
-MOV - 2692 - 3.36%
-HEIC - 20 - 0.02%
-PNG - 388 - 0.48%
-JPEG - 22 - 0.03%
-************************
+Example of NO CACHE - Repo Check output:<br />
+ took: 02(h)23(m)16(s)0309(ms) to get 80002 files<br />
+Total  check  for  80002 memories took: 53(m)24(s)0703(ms)<br />
+Total  process time  for  80002 memories took: 03(h)16(m)58(s)0000(ms)<br />
+************************<br />
+***REPO META DATA***<br />
+Total Repo Size: 2.21 TB<br />
+Total Repo Memories: 80002<br />
+***File Type - Count - Percent of Repo***<br />
+TIF - 11641 - 14.55%<br />
+MP4 - 1264 - 1.58%<br />
+JPG - 31335 - 39.17%<br />
+WMV - 4 - 0.00%<br />
+CR2 - 32619 - 40.77%<br />
+AVI - 17 - 0.02%<br />
+MOV - 2692 - 3.36%<br />
+HEIC - 20 - 0.02%<br />
+PNG - 388 - 0.48%<br />
+JPEG - 22 - 0.03%<br />
+************************<br />
 
 
 ## Credits
