@@ -53,8 +53,9 @@ MOV - 2692 - 3.36%<br />
 HEIC - 20 - 0.02%<br />
 PNG - 388 - 0.48%<br />
 JPEG - 22 - 0.03%<br />
-************************<br />
-
+************************<br /><br />
+When running the same but WITH A CACHE present:<br />
+took: 10(m)54(s)0813(ms) to get 80002 files<br />
 
 ## Credits
 To my family for inspiring me to make this to help keep our memories easily shareable and lasting!
