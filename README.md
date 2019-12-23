@@ -29,10 +29,32 @@ Flagged folder to indicate if they were non-duplicate or duplicate respectfully
 
 ## Performance
 My current system is a i5-7600K (4core/4thread) running at 5 Ghz with 32GB RAM (DDR4-3200). I usually allocate 15+ GB to the JVM.
-I have ~79,000 current memories in my repo, about 2 TB on a standard 5400 RPM hard drive.
+I have ~80,000 current memories in my repo, about 2.2 TB on a standard 5400 RPM hard drive.
 There is a cache.beo file placed in the repository which really helps in the loading of memories. Without
 this cache present, it can take hours to load all the memories the first time depending on size of repo. Once a cache is created,
 the process takes minutes to load memories from the cache!
+
+Example of no cache - Repo Check output:
+ took: 02(h)23(m)16(s)0309(ms) to get 80002 files
+Total  check  for  80002 memories took: 53(m)24(s)0703(ms)
+Total  process time  for  80002 memories took: 03(h)16(m)58(s)0000(ms)
+************************
+***REPO META DATA***
+Total Repo Size: 2.21 TB
+Total Repo Memories: 80002
+***File Type - Count - Percent of Repo***
+TIF - 11641 - 14.55%
+MP4 - 1264 - 1.58%
+JPG - 31335 - 39.17%
+WMV - 4 - 0.00%
+CR2 - 32619 - 40.77%
+AVI - 17 - 0.02%
+MOV - 2692 - 3.36%
+HEIC - 20 - 0.02%
+PNG - 388 - 0.48%
+JPEG - 22 - 0.03%
+************************
+
 
 ## Credits
 To my family for inspiring me to make this to help keep our memories easily shareable and lasting!
