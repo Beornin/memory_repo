@@ -12,9 +12,9 @@ import java.nio.file.Paths;
  */
 public class Mover
 {
-    private final static String STAGE_DIR = "Z:" + File.separator + "Imports" + File.separator + "Stage" + File.separator;
-    private final static String PASSED_DIR = "Z:" + File.separator + "Imports" + File.separator + "Pass" + File.separator;
-    private final static String FLAGGED_DIR = "Z:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator;
+    private final static String STAGE_DIR = "E:" + File.separator + "Imports" + File.separator + "Stage" + File.separator;
+    private final static String PASSED_DIR = "E:" + File.separator + "Imports" + File.separator + "Pass" + File.separator;
+    private final static String FLAGGED_DIR = "E:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator;
 
     /**
      * This moves the memory passed in to the passed folder

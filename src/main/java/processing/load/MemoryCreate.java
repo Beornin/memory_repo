@@ -1,5 +1,8 @@
 package processing.load;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
 import obj.Memory;
 import obj.UserInput;
 import processing.Shared;
@@ -7,6 +10,7 @@ import processing.Shared;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 class MemoryCreate implements Runnable
@@ -89,8 +93,14 @@ class MemoryCreate implements Runnable
                     }
                 } catch (final Exception ioe)
                 {
-                    System.out.println("Error loading memory: " + file.getPath());
-                    ioe.printStackTrace();
+                    try
+                    {
+                        memory.setMetadata(ImageMetadataReader.readMetadata(file));
+                        memory.setMetaDataLoaded(true);
+                    } catch (ImageProcessingException | IOException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
 
                 this.memories.add(memory);
