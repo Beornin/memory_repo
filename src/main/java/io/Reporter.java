@@ -21,11 +21,11 @@ public class Reporter
     public static void reportDuplicates(final String stageFileName, final ArrayList<Memory> matches)
     {
         final PrintWriter out;
-        String outputPath = "Z:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator + stageFileName + "-matches.txt";
+        String outputPath = "E:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator + stageFileName + "-matches.txt";
         final File test = new File(outputPath);
         if (test.exists())
         {
-            outputPath = "Z:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator + stageFileName + new SimpleDateFormat("HH.mm.ss").format(new Date()) +
+            outputPath = "E:" + File.separator + "Imports" + File.separator + "Flagged" + File.separator + stageFileName + new SimpleDateFormat("HH.mm.ss").format(new Date()) +
                     "-matches.txt";
         }
 
