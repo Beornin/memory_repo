@@ -4,6 +4,7 @@ import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.file.FileSystemDirectory;
+import com.drew.metadata.mp4.Mp4Directory;
 import obj.Memory;
 import obj.UserInput;
 import processing.Shared;
@@ -20,7 +21,7 @@ import java.util.List;
 class MemoryCreateMeta implements Runnable
 {
 
-    private final String pattern = "yyyy-MM-dd";
+    private final String pattern = "yyyy-MM";
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     private final File file;
     private final List<Memory> memories;
@@ -92,12 +93,12 @@ class MemoryCreateMeta implements Runnable
                     try
                     {
                         final ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
-                        memory.setDate(simpleDateFormat.format(exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)) + "-ORI");
+                        memory.setDate(simpleDateFormat.format(exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)));
                         memory.setMetaDataLoaded(true);
                     } catch (final NullPointerException npe)
                     {
                         final FileSystemDirectory fileSystemDirectory = metadata.getFirstDirectoryOfType(FileSystemDirectory.class);
-                        memory.setDate(simpleDateFormat.format(fileSystemDirectory.getDate(FileSystemDirectory.TAG_FILE_MODIFIED_DATE)) + "-MOD");
+                        memory.setDate(simpleDateFormat.format(fileSystemDirectory.getDate(FileSystemDirectory.TAG_FILE_MODIFIED_DATE)));
                     }
                 } catch (final Exception ioe)
                 {
@@ -132,16 +133,16 @@ class MemoryCreateMeta implements Runnable
                     memory.setMetaDataLoaded(true);
                     try
                     {
-                        final ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
-                        memory.setDate(simpleDateFormat.format(exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)) + "-ORI");
+
+                        final Mp4Directory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(Mp4Directory.class);
+                        memory.setDate(simpleDateFormat.format(exifSubIFDDirectory.getDate(Mp4Directory.TAG_CREATION_TIME)));
                     } catch (final NullPointerException npe)
                     {
-                        final FileSystemDirectory fileSystemDirectory = metadata.getFirstDirectoryOfType(FileSystemDirectory.class);
-                        memory.setDate(simpleDateFormat.format(fileSystemDirectory.getDate(FileSystemDirectory.TAG_FILE_MODIFIED_DATE)) + "-MOD");
+                        npe.printStackTrace();
                     }
-                } catch (final Exception ignored)
+                } catch (final Exception e)
                 {
-
+                    e.printStackTrace();
                 }
                 memory.setName(file.getName());
                 memory.setPath(file.getPath());

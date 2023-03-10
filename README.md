@@ -25,7 +25,7 @@ I currently handle duplicates is remove rows from the matches.txt that I want to
 *Import* - This is used once you have a duplicate free repo. This sorts memories from an Import folder into a Passed or
 Flagged folder to indicate if they were non-duplicate or duplicate respectfully
 
-*DateSortFolder* - This I use on a few folders of memories that I want to attempt to sort them out by date taken/created/modified.
+*SortingVideoWorkflow* - This I use on a few folders of memories that I want to attempt to sort them out by date taken/created/modified.
 
 ## Performance
 My current system is a i5-7600K (4core/4thread) running at 5 Ghz with 32GB RAM (DDR4-3200). I usually allocate 15+ GB to the JVM.

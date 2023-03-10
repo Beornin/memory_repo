@@ -74,7 +74,7 @@ class MemoryCreate implements Runnable
                 memory.setPicture(true);
                 memory.setImported(this.userIo.isImported());
 
-                try
+                /*try
                 {
                     final BufferedImage image = ImageIO.read(memory.getFile());
                     memory.setWidth(image.getWidth());
@@ -91,7 +91,7 @@ class MemoryCreate implements Runnable
                 {
                     System.out.println("Error loading memory: " + file.getPath());
                     ioe.printStackTrace();
-                }
+                }*/
 
                 this.memories.add(memory);
                 if (this.memories.size() % 10000 == 0)

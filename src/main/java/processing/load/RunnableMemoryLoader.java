@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class RunnableMemoryLoader
 {
     private static final String[] ALL_EXTENSIONS = new String[]{
-            "gif", "png", "bmp", "jpg", "jpeg", "heic", "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv", "raw", "cr2", "tiff", "tif",
-            "GIF", "PNG", "BMP", "JPG", "JPEG", "HEIC", "MP4", "MOV", "MP4", "MOV", "AVI", "VLC", "WMV", "RAW", "CR2", "TIFF", "TIF"
+            "gif", "png", "bmp", "jpg", "jpeg", "heic", "mp4", "mov", "mov", "avi", "vlc", "wmv", "raw", "cr2","cr3", "tiff", "tif",
+            "GIF", "PNG", "BMP", "JPG", "JPEG", "HEIC", "MP4", "MOV", "MOV", "AVI", "VLC", "WMV", "RAW", "CR2","CR3", "TIFF", "TIF"
     };
 
     /**
@@ -61,6 +61,19 @@ public class RunnableMemoryLoader
      * @param userInput Input
      * @return List of memories to use in the date sort
      */
+    public static List<Memory> loadDateSortVideoMemories(final UserInput userInput)
+    {
+        final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), Shared.VIDEO_EXTENSIONS, true);
+        final List<Memory> memories = Collections.synchronizedList(new ArrayList<>());
+
+        //this would load any remaining files from CacheMemories into memories
+        loadDateSortMemories(userInput, files, memories);
+        userInput.populateRepoMetaData(memories);
+        files.clear();
+
+        return memories;
+    }
+
     public static List<Memory> loadDateSortMemories(final UserInput userInput)
     {
         final Collection<File> files = FileUtils.listFiles(userInput.getStartingFolder(), ALL_EXTENSIONS, true);

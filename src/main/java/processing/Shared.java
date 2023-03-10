@@ -9,13 +9,13 @@ import java.util.concurrent.TimeUnit;
 public class Shared
 {
     public static final String[] PICTURE_EXTENSIONS = new String[]{
-            "gif", "png", "bmp", "jpg", "jpeg", "heic"
+            "gif", "png", "bmp", "jpg", "jpeg", "heic", "dng"
     };
     public static final String[] PICTURE_RAW_EXTENSIONS = new String[]{
-            "raw", "cr2", "tiff", "tif"
+            "raw", "cr2","cr3", "tiff", "tif"
     };
     public static final String[] VIDEO_EXTENSIONS = new String[]{
-            "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv"
+            "mp4", "mov", "mp4", "mov", "avi", "vlc", "wmv", "MP4"
     };
 
     /**
