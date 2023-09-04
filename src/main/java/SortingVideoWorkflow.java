@@ -24,7 +24,7 @@ class SortingVideoWorkflow {
         userInput.setImported(false);
         userInput.setStartingFolder(new File("D:\\Pictures and Videos\\AAUnsorted"));
         System.out.println("Getting current video memories...");
-        currentMemories = RunnableMemoryLoader.loadDateSortVideoMemories(userInput);
+        currentMemories = RunnableMemoryLoader.loadDateSortMemories(userInput);
 
         String date;
         BasicFileAttributes attr;
@@ -37,21 +37,38 @@ class SortingVideoWorkflow {
                 if (index % 100 == 0) {
                     System.out.println("Sorting: " + index + " out of " + currentMemories.size());
                 }
-
-                date = memory.getDate();
-                String exportPath = String.valueOf(Paths.get(exportFolder + date.split("-")[0].replace("-","") + File.separator + date.split("-")[1].replace("-","")));
-                Files.createDirectories(Paths.get(exportFolder + date.split("-")[0].replace("-", "") + File.separator + date.split("-")[1].replace("-", "")));
-                if (!new File(exportPath + File.separator + memory.getName()).exists()) {
-                    Files.copy(memory.getFile().toPath(), Paths.get(exportPath + File.separator + memory.getName()));
-                } else {
-                    int num = 0;
-                    String save;
-                    File saveFile = new File(exportPath + File.separator + memory.getName());
-                    while (saveFile.exists()) {
-                        save = num++ + memory.getName();
-                        saveFile = new File(exportPath + File.separator + save);
+                //PXL_20230302
+                if (memory.getName().startsWith("PXL_")) {
+                    String exportPath = exportFolder + memory.getName().substring(4,8) + File.separator + memory.getName().substring(8,10);
+                    Files.createDirectories(Paths.get(exportPath));
+                    if (!new File(exportPath + File.separator + memory.getName()).exists()) {
+                        Files.copy(memory.getFile().toPath(), Paths.get(exportPath + File.separator + memory.getName()));
+                    } else {
+                        int num = 0;
+                        String save;
+                        File saveFile = new File(exportPath + File.separator + memory.getName());
+                        while (saveFile.exists()) {
+                            save = num++ + memory.getName();
+                            saveFile = new File(exportPath + File.separator + save);
+                        }
+                        Files.copy(memory.getFile().toPath(), Paths.get(saveFile.toURI()));
                     }
-                    Files.copy(memory.getFile().toPath(), Paths.get(saveFile.toURI()));
+                } else {
+                    date = memory.getDate();
+                    String exportPath = String.valueOf(Paths.get(exportFolder + date.split("-")[0].replace("-", "") + File.separator + date.split("-")[1].replace("-", "")));
+                    Files.createDirectories(Paths.get(exportFolder + date.split("-")[0].replace("-", "") + File.separator + date.split("-")[1].replace("-", "")));
+                    if (!new File(exportPath + File.separator + memory.getName()).exists()) {
+                        Files.copy(memory.getFile().toPath(), Paths.get(exportPath + File.separator + memory.getName()));
+                    } else {
+                        int num = 0;
+                        String save;
+                        File saveFile = new File(exportPath + File.separator + memory.getName());
+                        while (saveFile.exists()) {
+                            save = num++ + memory.getName();
+                            saveFile = new File(exportPath + File.separator + save);
+                        }
+                        Files.copy(memory.getFile().toPath(), Paths.get(saveFile.toURI()));
+                    }
                 }
             }
         } catch (final Exception ioe) {
